@@ -99,7 +99,7 @@ El sistema se compone de 4 entidades fundamentales:
 ```txt
 Operadores
 Equipos
-DetallesEquipo
+especifiaciones_Equipo
 Reparaciones
 ```
 
@@ -143,7 +143,7 @@ Representa activos tecnológicos administrados por el sistema.
 ```txt
 numero_serie
 modelo
-detalles
+especifiaciones
 operador_asignado
 historial_reparaciones
 ```
@@ -170,7 +170,7 @@ No se utilizará un ID artificial para los equipos.
 
 ---
 
-# Entidad: DetallesEquipo
+# Entidad: especifiaciones_Equipo
 
 Representa las especificaciones técnicas de hardware.
 
@@ -243,7 +243,7 @@ Un equipo puede poseer múltiples registros históricos de mantenimiento.
 
 ---
 
-## Equipo → DetallesEquipo
+## Equipo → especifiaciones_Equipo
 
 ```txt
 1:1
@@ -383,7 +383,7 @@ frontend/
 │   │   ├── Equipo.ts
 │   │   ├── Operador.ts
 │   │   ├── Reparacion.ts
-│   │   └── DetallesEquipo.ts
+│   │   └── especifiaciones_Equipo.ts
 │   │
 │   ├── context/
 │   │   └── AppContext.tsx
