@@ -461,7 +461,3 @@ EquipTracker busca servir como práctica real de:
 * mantenimiento escalable
 
 ---
-
-# Identidad Conceptual
-
-El nombre `EquipTracker` transmite seguimiento, control, monitoreo y trazabilidad de activos tecnológicos empresariales.
