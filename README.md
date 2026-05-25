@@ -47,8 +47,6 @@ Cliente → API REST → Base de Datos
 * SQLAlchemy
 * SQLite
 
----
-
 ## Frontend
 
 * React
@@ -68,201 +66,216 @@ La comunicación entre frontend y backend será realizada mediante HTTP utilizan
 
 # Métodos HTTP Utilizados
 
-## GET
-
-Obtención de información.
-
----
-
-## POST
-
-Creación de nuevos recursos.
-
----
-
-## PUT
-
-Actualización de información.
-
----
-
-## DELETE
-
-Eliminación de recursos.
+| Método | Uso |
+|--------|-----|
+| `GET` | Obtención de información |
+| `POST` | Creación de nuevos recursos |
+| `PUT` | Actualización de información |
+| `DELETE` | Eliminación de recursos |
 
 ---
 
 # Entidades Principales
 
-El sistema se compone de 4 entidades fundamentales:
+El sistema se compone de 5 entidades fundamentales:
 
 ```txt
-Operadores
-Equipos
-especifiaciones_Equipo
-Reparaciones
+Operator
+Equipment
+Equipment Specs
+Equipment Assignment
+Equipment History
 ```
+
+## Relaciones
+
+```
+Equipment ──────────── Equipment Specs
+    │
+    ├── Equipment Assignment ──── Operator
+    │
+    └── Equipment History
+```
+
+| Relación | Tipo | Descripción |
+|----------|------|-------------|
+| Equipment → Equipment Specs | 1:1 | Cada equipo tiene un único bloque de especificaciones |
+| Operator → Equipment Assignment | 1:N | Un operador puede tener múltiples asignaciones |
+| Equipment → Equipment Assignment | 1:N | Un equipo puede tener múltiples asignaciones históricas |
+| Equipment → Equipment History | 1:N | Un equipo puede tener múltiples registros de historial |
 
 ---
 
-# Entidad: Operador
+# Entidad: Operator
 
-Representa trabajadores responsables de equipos tecnológicos.
+Representa a las personas que pueden recibir equipos asignados dentro de la organización.
 
 ## Propiedades
 
-```txt
-nombre
-estado
-cargo
-trabajador_id
-area
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `id` | integer | Identificador único del operador |
+| `name` | string | Nombre completo |
+| `department` | string | Área o equipo dentro de la organización |
+| `position` | string | Cargo o rol del operador |
+
+```json
+{
+  "id": 1,
+  "name": "Ana López",
+  "department": "Atención al Cliente",
+  "position": "Operador"
+}
 ```
 
 ---
 
-# Estado del Operador
+# Entidad: Equipment
 
-El estado será controlado mediante valores predefinidos.
-
-## Estados Iniciales
-
-```txt
-ACTIVO
-INACTIVO
-```
-
----
-
-# Entidad: Equipo
-
-Representa activos tecnológicos administrados por el sistema.
+Representa un dispositivo físico registrado en el sistema. Cada equipo es identificado de forma única por su número de serie y está vinculado a un registro de especificaciones.
 
 ## Propiedades
 
-```txt
-numero_serie
-modelo
-especifiaciones
-operador_asignado
-historial_reparaciones
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `id` | integer | Identificador interno único |
+| `serial` | string | Número de serie físico del dispositivo |
+| `brand` | string | Nombre del fabricante |
+| `model` | string | Modelo del dispositivo |
+| `created_at` | datetime | Fecha y hora de registro en el sistema |
+| `specs_id` | integer | Referencia al registro de `Equipment Specs` asociado |
+
+```json
+{
+  "id": 1,
+  "serial": "10000",
+  "brand": "Lenovo",
+  "model": "G50",
+  "created_at": "2026-12-09T08:53:00",
+  "specs_id": 1
+}
 ```
+
+> **Nota:** El estado del equipo (activo, en reparación, retirado) se deriva de sus registros de asignación e historial, no se almacena directamente aquí.
 
 ---
 
-# Decisión Arquitectónica Importante
+# Entidad: Equipment Specs
 
-El campo:
-
-```txt
-numero_serie
-```
-
-funcionará como identificador único natural del sistema.
-
-## Principio Aplicado
-
-```txt
-Clave primaria natural
-```
-
-No se utilizará un ID artificial para los equipos.
-
----
-
-# Entidad: especifiaciones_Equipo
-
-Representa las especificaciones técnicas de hardware.
+Almacena las especificaciones técnicas de un dispositivo. Está desacoplada de `Equipment` para permitir su reutilización en dispositivos con hardware idéntico.
 
 ## Propiedades
 
-```txt
-ram
-procesador
-almacenamiento
-grafica
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `id` | integer | Identificador único del bloque de especificaciones |
+| `cpu` | object | Información del procesador |
+| `ram` | object | Capacidad y configuración de memoria |
+| `storage` | object | Capacidad y tipo de almacenamiento |
+| `graphics` | object | Información de la unidad gráfica (integrada o dedicada) |
+
+```json
+{
+  "id": 1,
+  "cpu": {
+    "brand": "Intel",
+    "model": "Core i5"
+  },
+  "ram": {
+    "capacity": {
+      "value": 16,
+      "unit": "GB"
+    },
+    "mode": "dual-channel"
+  },
+  "storage": {
+    "capacity": {
+      "value": 500,
+      "unit": "GB"
+    },
+    "type": "HDD"
+  },
+  "graphics": {
+    "brand": "Intel",
+    "model": "UHD Graphics",
+    "type": "integrated",
+    "memory": {
+      "value": 128,
+      "unit": "MB"
+    }
+  }
+}
 ```
 
----
-
-# Principio Aplicado
-
-## Separación de Responsabilidades
-
-Las especificaciones técnicas estarán desacopladas de la entidad principal `Equipo`.
+> **Nota:** `graphics.type` puede ser `"integrated"` o `"dedicated"`. Para GPUs integradas, `graphics.memory` refleja la memoria compartida del sistema.
 
 ---
 
-# Entidad: Reparacion
+# Entidad: Equipment Assignment
 
-Representa mantenimientos o incidencias técnicas.
+Registra la relación entre un equipo y el operador que lo utiliza. Una asignación se considera **activa** cuando `returned_at` es `null`.
 
 ## Propiedades
 
-```txt
-fecha_inicio
-fecha_salida
-razon
-descripcion
-operador_solicitante
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `id` | integer | Identificador único de la asignación |
+| `equipment_id` | integer | Referencia al `Equipment` asignado |
+| `operator_id` | integer | Referencia al `Operator` que recibe el equipo |
+| `assigned_by` | integer | Referencia al admin o usuario que realizó la asignación |
+| `assigned_at` | datetime | Fecha y hora en que se asignó el equipo |
+| `returned_at` | datetime \| null | Fecha y hora de devolución. `null` indica que sigue asignado |
+| `status` | string | Estado de la asignación: `active` o `inactive` |
+
+```json
+{
+  "id": 1,
+  "equipment_id": 1,
+  "operator_id": 1,
+  "assigned_by": 1,
+  "assigned_at": "2026-05-25T10:00:00",
+  "returned_at": null,
+  "status": "active"
+}
 ```
 
----
-
-# Principios de Historial
-
-Las reparaciones representan:
-
-* trazabilidad
-* historial técnico
-* auditoría
-
-Por lo tanto normalmente no deben eliminarse.
+> **Regla:** Al cerrar una asignación, `returned_at` debe registrar la fecha de devolución y `status` debe cambiar a `"inactive"`.
 
 ---
 
-# Relaciones del Sistema
+# Entidad: Equipment History
 
-## Operador → Equipos
+Registra eventos relacionados con un equipo a lo largo de su ciclo de vida: reparaciones, mantenimientos, actualizaciones, etc. Los registros de historial normalmente no deben eliminarse ya que representan trazabilidad y auditoría.
 
-```txt
-1:N
+## Propiedades
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `id` | integer | Identificador único del registro |
+| `equipment_id` | integer | Referencia al `Equipment` relacionado |
+| `type` | string | Categoría del evento: `repair`, `maintenance`, `upgrade`, etc. |
+| `reason` | string | Descripción del motivo del evento |
+| `status` | string | Estado del evento: `open` o `closed` |
+| `reported_by` | integer | Referencia al operador o usuario que reportó el evento |
+| `technician_id` | integer | Referencia al técnico que atendió el evento |
+| `created_at` | datetime | Fecha y hora en que se reportó el evento |
+| `resolved_at` | datetime \| null | Fecha y hora de resolución. `null` si aún está abierto |
+
+```json
+{
+  "id": 55,
+  "equipment_id": 1,
+  "type": "repair",
+  "reason": "Placa en corto por humedad",
+  "status": "closed",
+  "reported_by": 1,
+  "technician_id": 1,
+  "created_at": "2026-02-12T09:23:00",
+  "resolved_at": "2026-02-13T07:00:00"
+}
 ```
 
-Un operador puede poseer múltiples equipos asignados.
-
----
-
-## Equipo → Reparaciones
-
-```txt
-1:N
-```
-
-Un equipo puede poseer múltiples registros históricos de mantenimiento.
-
----
-
-## Equipo → especifiaciones_Equipo
-
-```txt
-1:1
-```
-
-Cada equipo posee un único bloque de especificaciones técnicas.
-
----
-
-# Filosofía Arquitectónica
-
-EquipTracker seguirá principios de:
-
-* modularidad
-* mantenibilidad
-* escalabilidad
-* separación de responsabilidades
-* tipado fuerte
-* arquitectura desacoplada
+> **Regla:** Cuando `status` es `"closed"`, `resolved_at` debe tener un valor datetime válido.
 
 ---
 
@@ -274,26 +287,30 @@ backend/
 ├── app/
 │   │
 │   ├── routes/
-│   │   ├── operadores.py
-│   │   ├── equipos.py
-│   │   └── reparaciones.py
+│   │   ├── operators.py
+│   │   ├── equipment.py
+│   │   ├── assignments.py
+│   │   └── history.py
 │   │
 │   ├── models/
-│   │   ├── operador.py
-│   │   ├── equipo.py
-│   │   ├── detalle_equipo.py
-│   │   └── reparacion.py
+│   │   ├── operator.py
+│   │   ├── equipment.py
+│   │   ├── equipment_specs.py
+│   │   ├── equipment_assignment.py
+│   │   └── equipment_history.py
 │   │
 │   ├── schemas/
-│   │   ├── operador.py
-│   │   ├── equipo.py
-│   │   ├── detalle_equipo.py
-│   │   └── reparacion.py
+│   │   ├── operator.py
+│   │   ├── equipment.py
+│   │   ├── equipment_specs.py
+│   │   ├── equipment_assignment.py
+│   │   └── equipment_history.py
 │   │
 │   ├── services/
-│   │   ├── operadores_service.py
-│   │   ├── equipos_service.py
-│   │   └── reparaciones_service.py
+│   │   ├── operators_service.py
+│   │   ├── equipment_service.py
+│   │   ├── assignments_service.py
+│   │   └── history_service.py
 │   │
 │   ├── database/
 │   │   ├── connection.py
@@ -309,37 +326,15 @@ backend/
 └── README.md
 ```
 
----
+## Responsabilidades
 
-# Responsabilidades Backend
-
-## routes/
-
-Definición de endpoints REST.
-
----
-
-## models/
-
-Representación ORM y tablas SQL.
-
----
-
-## schemas/
-
-Validación y serialización de datos mediante Pydantic.
-
----
-
-## services/
-
-Lógica de negocio y procesos internos.
-
----
-
-## database/
-
-Configuración y conexión de base de datos.
+| Módulo | Responsabilidad |
+|--------|----------------|
+| `routes/` | Definición de endpoints REST |
+| `models/` | Representación ORM y tablas SQL |
+| `schemas/` | Validación y serialización de datos mediante Pydantic |
+| `services/` | Lógica de negocio y procesos internos |
+| `database/` | Configuración y conexión de base de datos |
 
 ---
 
@@ -354,12 +349,13 @@ frontend/
 │   │
 │   ├── components/
 │   │   ├── cards/
-│   │   │   ├── EquipoCard.tsx
-│   │   │   └── OperadorCard.tsx
+│   │   │   ├── EquipmentCard.tsx
+│   │   │   └── OperatorCard.tsx
 │   │   │
 │   │   ├── modals/
-│   │   │   ├── EquipoModal.tsx
-│   │   │   └── OperadorModal.tsx
+│   │   │   ├── EquipmentModal.tsx
+│   │   │   ├── AssignmentModal.tsx
+│   │   │   └── OperatorModal.tsx
 │   │   │
 │   │   └── layout/
 │   │       ├── Navbar.tsx
@@ -367,23 +363,26 @@ frontend/
 │   │
 │   ├── pages/
 │   │   ├── Dashboard.tsx
-│   │   ├── Equipos.tsx
-│   │   ├── Operadores.tsx
-│   │   └── Reparaciones.tsx
+│   │   ├── Equipment.tsx
+│   │   ├── Operators.tsx
+│   │   ├── Assignments.tsx
+│   │   └── History.tsx
 │   │
 │   ├── services/
 │   │   └── api.ts
 │   │
 │   ├── hooks/
-│   │   ├── useEquipos.ts
-│   │   ├── useOperadores.ts
-│   │   └── useReparaciones.ts
+│   │   ├── useEquipment.ts
+│   │   ├── useOperators.ts
+│   │   ├── useAssignments.ts
+│   │   └── useHistory.ts
 │   │
 │   ├── types/
-│   │   ├── Equipo.ts
-│   │   ├── Operador.ts
-│   │   ├── Reparacion.ts
-│   │   └── especifiaciones_Equipo.ts
+│   │   ├── Equipment.ts
+│   │   ├── EquipmentSpecs.ts
+│   │   ├── EquipmentAssignment.ts
+│   │   ├── EquipmentHistory.ts
+│   │   └── Operator.ts
 │   │
 │   ├── context/
 │   │   └── AppContext.tsx
@@ -396,43 +395,16 @@ frontend/
 └── vite.config.ts
 ```
 
----
+## Responsabilidades
 
-# Responsabilidades Frontend
-
-## components/
-
-Componentes reutilizables de interfaz.
-
----
-
-## pages/
-
-Pantallas principales del sistema.
-
----
-
-## services/
-
-Comunicación HTTP con la API mediante Axios.
-
----
-
-## hooks/
-
-Reutilización de lógica y manejo de estados.
-
----
-
-## types/
-
-Tipado y estructuras TypeScript.
-
----
-
-## context/
-
-Estados globales compartidos.
+| Módulo | Responsabilidad |
+|--------|----------------|
+| `components/` | Componentes reutilizables de interfaz |
+| `pages/` | Pantallas principales del sistema |
+| `services/` | Comunicación HTTP con la API mediante Axios |
+| `hooks/` | Reutilización de lógica y manejo de estados |
+| `types/` | Tipado y estructuras TypeScript |
+| `context/` | Estados globales compartidos |
 
 ---
 
@@ -456,29 +428,13 @@ SQLite Database
 
 # Principios Técnicos Aplicados
 
-## REST
-
-Comunicación desacoplada basada en recursos.
-
----
-
-## Separación de Capas
-
-Cada módulo posee responsabilidades específicas.
-
----
-
-## Validación de Datos
-
-Nunca confiar completamente en datos provenientes del frontend.
-
----
-
-## Variables de Entorno
-
-Los datos sensibles deben desacoplarse del código fuente.
-
-## Ejemplo
+| Principio | Descripción |
+|-----------|-------------|
+| REST | Comunicación desacoplada basada en recursos |
+| Separación de capas | Cada módulo posee responsabilidades específicas |
+| Validación de datos | Nunca confiar completamente en datos del frontend |
+| Variables de entorno | Los datos sensibles se desacoplan del código fuente |
+| Historial inmutable | Los registros de `Equipment History` no deben eliminarse |
 
 ```env
 VITE_API_URL=
@@ -508,17 +464,4 @@ EquipTracker busca servir como práctica real de:
 
 # Identidad Conceptual
 
-El nombre:
-
-```txt
-EquipTracker
-```
-
-transmite:
-
-* seguimiento
-* control
-* monitoreo
-* trazabilidad
-
-de activos tecnológicos empresariales.
+El nombre `EquipTracker` transmite seguimiento, control, monitoreo y trazabilidad de activos tecnológicos empresariales.
