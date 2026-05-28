@@ -1,0 +1,24 @@
+from datetime import datetime
+
+from app.models.base import Base
+from sqlalchemy import DateTime, ForeignKey, String, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+
+class Equipment(Base):
+    __tablename__ = "equipments"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    serial: Mapped[str] = mapped_column(String(30), unique=True, nullable=False)
+    brand: Mapped[str] = mapped_column(String(100), nullable=False)
+    model: Mapped[str] = mapped_column(String(100), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    specs_id: Mapped[int] = mapped_column(
+        ForeignKey("equipment_specs.id"), nullable=False
+    )
+    specs: Mapped["EquipmentSpecs"] = relationship(back_populates="equipments")
+    history_records: Mapped[list["EquipmentHistory"]] = relationship(
+        back_populates="equipment"
+    )
