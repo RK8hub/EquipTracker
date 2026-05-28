@@ -1,5 +1,5 @@
+from __future__ import annotations
 from datetime import datetime
-
 from app.models.base import Base
 from sqlalchemy import DateTime, ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -18,7 +18,14 @@ class Equipment(Base):
     specs_id: Mapped[int] = mapped_column(
         ForeignKey("equipment_specs.id"), nullable=False
     )
-    specs: Mapped["EquipmentSpecs"] = relationship(back_populates="equipments")
+
+
+    specs: Mapped["EquipmentSpecs"] = relationship(back_populates="equipment")
+
+    assignments: Mapped[list["EquipmentAssignment"]] = relationship(
+        back_populates="equipment"
+    )
+
     history_records: Mapped[list["EquipmentHistory"]] = relationship(
         back_populates="equipment"
     )
