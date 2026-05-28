@@ -1,7 +1,5 @@
 from __future__ import annotations
-
 from datetime import datetime
-
 from app.models.base import Base
 from sqlalchemy import DateTime, ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -25,6 +23,7 @@ class EquipmentAssignment(Base):
     status: Mapped[str] = mapped_column(String(20), nullable=False, default="active")
 
     equipment: Mapped["Equipment"] = relationship(back_populates="assignments")
+
     operator: Mapped["Operator"] = relationship(
         foreign_keys=[operator_id], back_populates="assignments"
     )
