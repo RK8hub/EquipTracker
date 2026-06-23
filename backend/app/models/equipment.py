@@ -1,8 +1,11 @@
 from __future__ import annotations
+
 from datetime import datetime
-from app.models.base import Base
+
 from sqlalchemy import DateTime, ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.models.base import Base
 
 
 class Equipment(Base):
@@ -18,7 +21,6 @@ class Equipment(Base):
     specs_id: Mapped[int] = mapped_column(
         ForeignKey("equipment_specs.id"), nullable=False
     )
-
 
     specs: Mapped["EquipmentSpecs"] = relationship(back_populates="equipment")
 
