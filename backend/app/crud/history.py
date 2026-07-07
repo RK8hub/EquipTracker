@@ -1,7 +1,4 @@
-from app.schemas.equipment_history import (
-    EquipmentHistoryCreate,
-    EquipmentHistoryUpdate,
-)
+from app.schemas.history import HistoryCreate, HistoryUpdate
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
@@ -18,7 +15,7 @@ def get_history_records(db: Session, skip: int = 0, limit: int = 100):
 
 def create_history_record(
     db: Session,
-    history: EquipmentHistoryCreate,
+    history: HistoryCreate,
 ):
     try:
         db_history = EquipmentHistory(**history.model_dump())
@@ -37,7 +34,7 @@ def create_history_record(
 def update_history_record(
     db: Session,
     history_id: int,
-    history: EquipmentHistoryUpdate,
+    history: HistoryUpdate,
 ):
     try:
         db_history = (
