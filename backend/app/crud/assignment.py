@@ -23,8 +23,9 @@ def create_assignment(db: Session, assignment: AssignmentCreate):
             equipment_id=assignment.equipment_id,
             operator_id=assignment.operator_id,
             assigned_by=assignment.assigned_by,
-            returned_at=assignment.returned_at,
-            status=assignment.status,
+            assigned_at=assignment.assigned_at,
+            returned_at=None,
+            status="active",
         )
 
         db.add(db_assignment)

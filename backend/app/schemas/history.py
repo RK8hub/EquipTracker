@@ -16,8 +16,12 @@ class HistoryBase(BaseModel):
     resolved_at: datetime | None
 
 
-class HistoryCreate(HistoryBase):
-    pass
+class HistoryCreate(BaseModel):
+    equipment_id: Id
+    type: NonEmptyStr
+    reason: NonEmptyStr
+    reported_by: Id
+    technician_id: Id
 
 
 class HistoryRead(HistoryBase):
