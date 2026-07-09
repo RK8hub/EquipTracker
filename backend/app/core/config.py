@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import secrets
 from os import environ
 from typing import NewType
 
@@ -7,8 +10,11 @@ load_dotenv()
 
 DatabaseURL = NewType("DatabaseURL", str)
 
-SecretKey = NewType("SecretKey", str)
-
-SECRET_KEY: SecretKey = SecretKey(environ["SECRET_KEY"])
-
 DATABASE_URL: DatabaseURL = DatabaseURL(environ["DB_URL"])
+
+
+def get_api_key() -> str:
+    key = environ.get("API_KEY", "")
+    if not key:
+        key = secrets.token_urlsafe(32)
+    return key

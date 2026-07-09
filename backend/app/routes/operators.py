@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
@@ -22,7 +22,10 @@ def list_operators(
 
 
 @router.get("/{operator_id}", response_model=OperatorRead)
-def read_operator(operator_id: int, db: Session = Depends(get_db)):
+def read_operator(
+    operator_id: int = Path(ge=1),
+    db: Session = Depends(get_db),
+):
     operator = service.get_operator(db, operator_id)
     if operator is None:
         raise HTTPException(status_code=404, detail="operator not found")
@@ -36,8 +39,8 @@ def create_operator(data: OperatorCreate, db: Session = Depends(get_db)):
 
 @router.put("/{operator_id}", response_model=OperatorRead)
 def update_operator(
-    operator_id: int,
-    data: OperatorUpdate,
+    operator_id: int = Path(ge=1),
+    data: OperatorUpdate = None,
     db: Session = Depends(get_db),
 ):
     operator = service.update_operator(db, operator_id, data)
@@ -47,7 +50,10 @@ def update_operator(
 
 
 @router.delete("/{operator_id}", status_code=204)
-def delete_operator(operator_id: int, db: Session = Depends(get_db)):
+def delete_operator(
+    operator_id: int = Path(ge=1),
+    db: Session = Depends(get_db),
+):
     if not service.delete_operator(db, operator_id):
         raise HTTPException(status_code=404, detail="operator not found")
     return None
