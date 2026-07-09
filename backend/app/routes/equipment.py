@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
@@ -22,7 +22,10 @@ def list_equipment(
 
 
 @router.get("/{equipment_id}", response_model=EquipmentRead)
-def read_equipment(equipment_id: int, db: Session = Depends(get_db)):
+def read_equipment(
+    equipment_id: int = Path(ge=1),
+    db: Session = Depends(get_db),
+):
     equipment = service.get_equipment(db, equipment_id)
     if equipment is None:
         raise HTTPException(status_code=404, detail="equipment not found")
@@ -36,8 +39,8 @@ def create_equipment(data: EquipmentCreate, db: Session = Depends(get_db)):
 
 @router.put("/{equipment_id}", response_model=EquipmentRead)
 def update_equipment(
-    equipment_id: int,
-    data: EquipmentUpdate,
+    equipment_id: int = Path(ge=1),
+    data: EquipmentUpdate = None,
     db: Session = Depends(get_db),
 ):
     equipment = service.update_equipment(db, equipment_id, data)
@@ -47,7 +50,10 @@ def update_equipment(
 
 
 @router.delete("/{equipment_id}", status_code=204)
-def delete_equipment(equipment_id: int, db: Session = Depends(get_db)):
+def delete_equipment(
+    equipment_id: int = Path(ge=1),
+    db: Session = Depends(get_db),
+):
     if not service.delete_equipment(db, equipment_id):
         raise HTTPException(status_code=404, detail="equipment not found")
     return None

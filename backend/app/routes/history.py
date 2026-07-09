@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
@@ -22,7 +22,10 @@ def list_history(
 
 
 @router.get("/{history_id}", response_model=HistoryRead)
-def read_history(history_id: int, db: Session = Depends(get_db)):
+def read_history(
+    history_id: int = Path(ge=1),
+    db: Session = Depends(get_db),
+):
     record = service.get_history_record(db, history_id)
     if record is None:
         raise HTTPException(status_code=404, detail="history record not found")
@@ -36,8 +39,8 @@ def create_history(data: HistoryCreate, db: Session = Depends(get_db)):
 
 @router.put("/{history_id}", response_model=HistoryRead)
 def update_history(
-    history_id: int,
-    data: HistoryUpdate,
+    history_id: int = Path(ge=1),
+    data: HistoryUpdate = None,
     db: Session = Depends(get_db),
 ):
     record = service.update_history_record(db, history_id, data)
@@ -46,6 +49,9 @@ def update_history(
     return record
 
 
-@router.delete("/{history_id}")
-def delete_history(history_id: int, db: Session = Depends(get_db)):
+@router.delete("/{history_id}", status_code=204)
+def delete_history(
+    history_id: int = Path(ge=1),
+    db: Session = Depends(get_db),
+):
     return service.delete_history_record(db, history_id)

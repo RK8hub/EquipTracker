@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
@@ -22,7 +22,10 @@ def list_assignments(
 
 
 @router.get("/{assignment_id}", response_model=AssignmentRead)
-def read_assignment(assignment_id: int, db: Session = Depends(get_db)):
+def read_assignment(
+    assignment_id: int = Path(ge=1),
+    db: Session = Depends(get_db),
+):
     assignment = service.get_assignment(db, assignment_id)
     if assignment is None:
         raise HTTPException(status_code=404, detail="assignment not found")
@@ -36,8 +39,8 @@ def create_assignment(data: AssignmentCreate, db: Session = Depends(get_db)):
 
 @router.put("/{assignment_id}", response_model=AssignmentRead)
 def update_assignment(
-    assignment_id: int,
-    data: AssignmentUpdate,
+    assignment_id: int = Path(ge=1),
+    data: AssignmentUpdate = None,
     db: Session = Depends(get_db),
 ):
     assignment = service.update_assignment(db, assignment_id, data)
@@ -47,7 +50,10 @@ def update_assignment(
 
 
 @router.delete("/{assignment_id}", status_code=204)
-def delete_assignment(assignment_id: int, db: Session = Depends(get_db)):
+def delete_assignment(
+    assignment_id: int = Path(ge=1),
+    db: Session = Depends(get_db),
+):
     if not service.delete_assignment(db, assignment_id):
         raise HTTPException(status_code=404, detail="assignment not found")
     return None
