@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: equiptracker-db
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-equiptracker}
+      POSTGRES_USER: ${POSTGRES_USER:-equiptracker}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-equiptracker}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: equiptracker-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-equiptracker}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-equiptracker}
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY is required}
+    volumes:
+      - updates_data:/opt/equiptracker/updates
+    ports:
+      - "8000:8000"
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: equiptracker-nginx
+    restart: unless-stopped
+    depends_on:
+      - backend
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - updates_data:/opt/equiptracker/updates:ro
+    ports:
+      - "80:80"
+
+volumes:
+  postgres_data:
+  updates_data:
