@@ -35,6 +35,12 @@ def create_access_token(data: dict) -> str:
 
 
 def register(db: Session, data: UserCreate) -> User:
+    if user_crud.count_users(db) > 0:
+        raise BusinessError(
+            "registration is disabled — a user already exists. "
+            "Contact an admin or use the console to create new users.",
+            403,
+        )
     existing = user_crud.get_user_by_email(db, data.email)
     if existing:
         raise BusinessError("email already registered", 409)

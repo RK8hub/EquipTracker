@@ -15,6 +15,10 @@ def get_user_by_id(db: Session, user_id: int) -> User | None:
     return db.query(User).filter(User.id == user_id).first()
 
 
+def count_users(db: Session) -> int:
+    return db.query(User).count()
+
+
 def create_user(db: Session, data: UserCreate, hashed_password: str) -> User:
     try:
         db_user = User(
