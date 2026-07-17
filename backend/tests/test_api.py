@@ -80,15 +80,22 @@ class TestAuth:
         assert "access_token" in resp.json()
 
     def test_register_duplicate_email(self, client):
-        client.post(
-            "/auth/register",
-            json={"email": "dup@test.com", "password": "pass123"},
-        )
         resp = client.post(
             "/auth/register",
             json={"email": "dup@test.com", "password": "pass123"},
         )
-        assert resp.status_code == 409
+        assert resp.status_code == 201
+
+    def test_register_blocked_after_first_user(self, client):
+        client.post(
+            "/auth/register",
+            json={"email": "first@test.com", "password": "pass123"},
+        )
+        resp = client.post(
+            "/auth/register",
+            json={"email": "second@test.com", "password": "pass123"},
+        )
+        assert resp.status_code == 403
 
     def test_login_invalid_credentials(self, client):
         resp = client.post(

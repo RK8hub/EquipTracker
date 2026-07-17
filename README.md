@@ -99,6 +99,10 @@ routes (HTTP) → services (lógica) → crud (BD) → models (ORM)
 
 La API usa **JWT (Bearer token)**. Endpoints públicos:
 
+> **Registro de usuarios:** `/auth/register` solo está disponible cuando no hay ningún usuario en la base de datos. Una vez creado el primer usuario (admin), el registro se deshabilita automáticamente. Usar la consola del servidor o la API con token de admin para crear más usuarios.
+
+Endpoints públicos:
+
 | Path | Descripción |
 |------|-------------|
 | `POST /auth/register` | Registrar nuevo usuario |
@@ -119,7 +123,7 @@ El token expira en **8 horas**. El hash de contraseñas usa **bcrypt** via passl
 
 | Método | Path | Descripción |
 |--------|------|-------------|
-| POST | `/auth/register` | Crear usuario (email, password, role) |
+| POST | `/auth/register` | Crear usuario (email, password, role). **Solo funciona si no hay usuarios registrados.** |
 | POST | `/auth/token` | Login → JWT |
 | GET/POST | `/operators` | Listar / crear operadores |
 | GET/PUT/DELETE | `/operators/{id}` | CRUD operador |
@@ -181,10 +185,17 @@ cp .env.production .env      # Editar SECRET_KEY y POSTGRES_PASSWORD
 docker compose up -d          # Levanta postgres + backend + nginx
 docker compose exec backend alembic upgrade head  # Migraciones
 
-# Crear primer usuario:
+# Crear primer usuario (solo funciona si no hay usuarios en la BD):
 curl -X POST http://localhost:8000/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@empresa.com","password":"<password>","role":"admin"}'
+
+# Una vez creado el admin, el registro público se desactiva.
+# Para crear más usuarios, el admin debe usar el endpoint con su token:
+curl -X POST http://localhost:8000/admin/users \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@empresa.com","password":"<password>","role":"operator"}'
 ```
 
 ### Variables de entorno
