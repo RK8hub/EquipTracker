@@ -10,7 +10,7 @@ from app.schemas.types import Id
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
-    role: str = "operator"
+    role: str = "staff"
 
 
 class UserRead(BaseModel):
