@@ -25,8 +25,8 @@ rsync -avz --delete \
   --exclude='__pycache__' \
   --exclude='*.pyc' \
   --exclude='.git' \
+  --exclude='.env' \
   --exclude='equip_tracker.db' \
-  --include='backend/***' \
   "$LOCAL_BACKEND/" "$SERVER:$REMOTE_DIR/backend/"
 echo "  ✓ Código sincronizado"
 
