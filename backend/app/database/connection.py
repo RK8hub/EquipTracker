@@ -12,7 +12,7 @@ def _is_sqlite(url: str) -> bool:
 
 _connect_args = {"check_same_thread": False} if _is_sqlite(DATABASE_URL) else {}
 
-engine = create_engine(DATABASE_URL, connect_args=_connect_args or None)
+engine = create_engine(DATABASE_URL, connect_args=_connect_args)
 
 
 SessionLocal = sessionmaker(
