@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 
-from jose import JWTError, jwt
+from jose import jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
@@ -55,17 +55,4 @@ def authenticate(db: Session, data: LoginRequest) -> User:
     return user
 
 
-def get_current_user(db: Session, token: str) -> User:
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        sub = payload.get("sub")
-        if sub is None:
-            raise BusinessError("invalid token", 401)
-        user_id = int(sub)
-    except (JWTError, ValueError, TypeError):
-        raise BusinessError("invalid token", 401)
 
-    user = user_crud.get_user_by_id(db, user_id)
-    if user is None:
-        raise BusinessError("user not found", 401)
-    return user
