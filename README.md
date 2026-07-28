@@ -21,7 +21,6 @@
 ```
 backend/
 ├── .env                      # Variables de entorno (local)
-├── .env.production           # Plantilla para producción
 ├── Dockerfile                # Imagen del backend
 ├── docker-compose.yml        # Backend + PostgreSQL + Nginx
 ├── requirements.txt          # Dependencias
@@ -65,6 +64,12 @@ backend/
     │   ├── assignment.py
     │   └── history.py
     ├── crud/                 # Operaciones BD por entidad
+    │   ├── user.py
+    │   ├── operator.py
+    │   ├── equipment.py
+    │   ├── specs.py
+    │   ├── assignment.py
+    │   └── history.py
     ├── services/             # Lógica de negocio
     │   ├── auth_service.py   # Registro, login, JWT
     │   ├── operators_service.py
@@ -99,13 +104,11 @@ routes (HTTP) → services (lógica) → crud (BD) → models (ORM)
 
 La API usa **JWT (Bearer token)**. Endpoints públicos:
 
-> **Registro de usuarios:** `/auth/register` solo está disponible cuando no hay ningún usuario en la base de datos. Una vez creado el primer usuario (admin), el registro se deshabilita automáticamente. Usar la consola del servidor o la API con token de admin para crear más usuarios.
-
-Endpoints públicos:
+> **Registro de usuarios:** `POST /auth/register` solo está disponible cuando no hay ningún usuario en la base de datos. Una vez creado el primer usuario (admin), el registro se deshabilita automáticamente.
 
 | Path | Descripción |
 |------|-------------|
-| `POST /auth/register` | Registrar nuevo usuario |
+| `POST /auth/register` | Registrar nuevo usuario (solo si no hay usuarios) |
 | `POST /auth/token` | Login, devuelve `access_token` |
 | `GET /health` | Health check |
 | `GET /docs` | Swagger UI |
@@ -117,7 +120,7 @@ Todos los demás endpoints requieren header:
 Authorization: Bearer <token>
 ```
 
-El token expira en **8 horas**. El hash de contraseñas usa **bcrypt** via passlib.
+El token expira en **24 horas**. El hash de contraseñas usa **bcrypt** via passlib.
 
 ### Endpoints
 
@@ -141,9 +144,9 @@ El token expira en **8 horas**. El hash de contraseñas usa **bcrypt** via passl
 
 ### Reglas de negocio clave
 
-- **Historial inmutable**: no se puede eliminar, solo actualizar
+- **Historial inmutable**: no se puede eliminar, solo actualizar (DELETE → 403)
 - **Asignaciones activas**: un equipo no puede tener dos asignaciones activas simultáneas
-- **Borrado protegido**: no se puede eliminar un operador/equipo con asignaciones o historial asociado
+- **Borrado protegido**: no se puede eliminar un operador/equipo con asignaciones o historial asociado (409 Conflict)
 - **Specs referenciados**: no se puede eliminar una especificación si hay equipos que la usan
 
 ---
@@ -158,12 +161,12 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Usa SQLite por defecto (`.env`). La API en `http://localhost:8000`, docs en `http://localhost:8000/docs`.
+Usa SQLite por defecto (`.env` opcional). La API corre en `http://localhost:8000`, docs en `http://localhost:8000/docs`.
 
 ### Migraciones (Alembic)
 
 ```bash
-alembic upgrade head        # Aplicar migraciones
+alembic upgrade head                      # Aplicar migraciones
 alembic revision --autogenerate -m "descripcion"  # Nueva migración
 ```
 
@@ -179,9 +182,8 @@ pytest tests/ -v
 ## Docker / Producción
 
 ```bash
-# En el servidor:
-cd /opt/equiptracker/backend
-cp .env.production .env      # Editar SECRET_KEY y POSTGRES_PASSWORD
+cd backend
+cp .env.production .env      # Editar con valores reales
 docker compose up -d          # Levanta postgres + backend + nginx
 docker compose exec backend alembic upgrade head  # Migraciones
 
@@ -189,13 +191,6 @@ docker compose exec backend alembic upgrade head  # Migraciones
 curl -X POST http://localhost:8000/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"admin@empresa.com","password":"<password>","role":"admin"}'
-
-# Una vez creado el admin, el registro público se desactiva.
-# Para crear más usuarios, el admin debe usar el endpoint con su token:
-curl -X POST http://localhost:8000/admin/users \
-  -H "Authorization: Bearer <token>" \
-  -H "Content-Type: application/json" \
-  -d '{"email":"user@empresa.com","password":"<password>","role":"operator"}'
 ```
 
 ### Variables de entorno
@@ -206,7 +201,7 @@ curl -X POST http://localhost:8000/admin/users \
 | `SECRET_KEY` | `change-me-in-production` | Clave para firmar JWT |
 | `CORS_ORIGINS` | `http://localhost:5173,http://127.0.0.1:5173` | Orígenes CORS (separados por coma) |
 | `JSON_LOGS` | `false` | Activar logging en formato JSON |
-| `UPDATES_DIR` | `/opt/equiptracker/updates` | Directorio de binarios para auto-updater |
+| `UPDATES_DIR` | *(pendiente de definir en deploy)* | Directorio de binarios para auto-updater |
 
 ---
 
