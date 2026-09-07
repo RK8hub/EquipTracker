@@ -5,7 +5,7 @@ from app.schemas.types import Id, NonEmptyStr
 from pydantic import BaseModel, ConfigDict
 
 
-class HistoryBase(BaseModel):
+class IncidentBase(BaseModel):
     equipment_id: Id
     type: NonEmptyStr
     reason: NonEmptyStr
@@ -16,7 +16,7 @@ class HistoryBase(BaseModel):
     resolved_at: datetime | None
 
 
-class HistoryCreate(BaseModel):
+class IncidentCreate(BaseModel):
     equipment_id: Id
     type: NonEmptyStr
     reason: NonEmptyStr
@@ -24,13 +24,13 @@ class HistoryCreate(BaseModel):
     technician_id: Id
 
 
-class HistoryRead(HistoryBase):
+class IncidentRead(IncidentBase):
     id: Id
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class HistoryUpdate(BaseModel):
+class IncidentUpdate(BaseModel):
     type: NonEmptyStr | None = None
     reason: NonEmptyStr | None = None
     status: Literal["open", "closed"] | None = None

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.core.errors import BusinessError
 from app.crud import operator as operator_crud
 from app.models.equipment_assignment import EquipmentAssignment
-from app.models.equipment_history import EquipmentHistory
+from app.models.incident import Incident
 from app.schemas.operator import OperatorCreate, OperatorUpdate
 
 
@@ -40,17 +40,17 @@ def delete_operator(db: Session, operator_id: int):
             "operator has assignments and cannot be deleted", 409
         )
 
-    has_history = (
-        db.query(EquipmentHistory)
+    has_incidents = (
+        db.query(Incident)
         .filter(
-            (EquipmentHistory.reported_by == operator_id)
-            | (EquipmentHistory.technician_id == operator_id)
+            (Incident.reported_by == operator_id)
+            | (Incident.technician_id == operator_id)
         )
         .first()
     )
-    if has_history:
+    if has_incidents:
         raise BusinessError(
-            "operator has history records and cannot be deleted", 409
+            "operator has incidents and cannot be deleted", 409
         )
 
     return operator_crud.delete_operator(db, operator_id)

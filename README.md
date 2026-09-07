@@ -122,17 +122,17 @@ El token expira en **24 horas**. El hash de contraseñas usa **bcrypt** via pass
 | GET/PUT/DELETE | `/specs/{id}` | CRUD specs |
 | GET/POST | `/assignments` | Listar / crear asignaciones |
 | GET/PUT/DELETE | `/assignments/{id}` | CRUD asignación |
-| GET/POST | `/history` | Listar / crear historial |
-| GET/PUT | `/history/{id}` | Leer / actualizar historial (DELETE = 403) |
+| GET/POST | `/incidents` | Listar / crear incidencias |
+| GET/PUT | `/incidents/{id}` | Leer / actualizar incidencias (DELETE = 403) |
 | GET | `/updates/latest.json` | Manifiesto del auto-updater |
 | GET | `/updates/{platform}` | Descargar binario (linux/windows/macos) |
 | GET | `/health` | Health check |
 
 ### Reglas de negocio clave
 
-- **Historial inmutable**: no se puede eliminar, solo actualizar
+- **Incidencias inmutables**: no se puede eliminar, solo actualizar
 - **Asignaciones activas**: un equipo no puede tener dos asignaciones activas simultáneas
-- **Borrado protegido**: no se puede eliminar un operador/equipo con asignaciones o historial asociado
+- **Borrado protegido**: no se puede eliminar un operador/equipo con asignaciones o incidencias asociadas
 - **Specs referenciados**: no se puede eliminar una especificación si hay equipos que la usan
 
 ### Decisiones de arquitectura
@@ -148,7 +148,7 @@ El token expira en **24 horas**. El hash de contraseñas usa **bcrypt** via pass
 ## Roadmap
 
 ### Fase 1 — Backend ✅ Completada
-- API REST con 5 entidades (operators, equipment, specs, assignments, history)
+- API REST con 5 entidades (operators, equipment, specs, assignments, incidents)
 - Autenticación JWT + roles (admin/staff)
 - PostgreSQL + Alembic + Docker
 - Rate limiting, logging, CORS configurable
@@ -165,7 +165,7 @@ El token expira en **24 horas**. El hash de contraseñas usa **bcrypt** via pass
 | P4 | Capa API (client + 5 módulos) | ⏳ Pendiente |
 | P5 | Layout base (Sidebar + Router) | ⏳ Pendiente |
 | P6 | Componentes UI comunes (DataTable, Pagination) | ⏳ Pendiente |
-| P7-P11 | Páginas CRUD (operadores, equipos, specs, asignaciones, historial) | ⏳ Pendiente |
+| P7-P11 | Páginas CRUD (operadores, equipos, specs, asignaciones, incidencias) | ⏳ Pendiente |
 | P12 | Dashboard | ⏳ Pendiente |
 | P13 | Auto Updater + empaquetado (.deb / .AppImage) | ⏳ Pendiente |
 

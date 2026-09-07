@@ -268,8 +268,8 @@ class TestAssignments:
         assert dup_resp.status_code == 409
 
 
-class TestHistory:
-    def test_history_immutable_delete(self, client, token):
+class TestIncidents:
+    def test_incident_immutable_delete(self, client, token):
         op_resp = client.post(
             "/operators",
             headers=auth_headers(token),
@@ -306,8 +306,8 @@ class TestHistory:
         )
         eq_id = eq_resp.json()["id"]
 
-        hist_resp = client.post(
-            "/history",
+        inc_resp = client.post(
+            "/incidents",
             headers=auth_headers(token),
             json={
                 "equipment_id": eq_id,
@@ -317,8 +317,8 @@ class TestHistory:
                 "technician_id": op_id,
             },
         )
-        assert hist_resp.status_code == 201
-        hist_id = hist_resp.json()["id"]
+        assert inc_resp.status_code == 201
+        inc_id = inc_resp.json()["id"]
 
-        delete_resp = client.delete(f"/history/{hist_id}", headers=auth_headers(token))
+        delete_resp = client.delete(f"/incidents/{inc_id}", headers=auth_headers(token))
         assert delete_resp.status_code == 403

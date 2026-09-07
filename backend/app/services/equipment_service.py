@@ -6,7 +6,7 @@ from app.core.errors import BusinessError
 from app.crud import equipment as equipment_crud
 from app.crud import specs as specs_crud
 from app.models.equipment_assignment import EquipmentAssignment
-from app.models.equipment_history import EquipmentHistory
+from app.models.incident import Incident
 from app.schemas.equipment import EquipmentCreate, EquipmentUpdate
 
 
@@ -50,14 +50,14 @@ def delete_equipment(db: Session, equipment_id: int):
             "equipment has assignments and cannot be deleted", 409
         )
 
-    has_history = (
-        db.query(EquipmentHistory)
-        .filter(EquipmentHistory.equipment_id == equipment_id)
+    has_incidents = (
+        db.query(Incident)
+        .filter(Incident.equipment_id == equipment_id)
         .first()
     )
-    if has_history:
+    if has_incidents:
         raise BusinessError(
-            "equipment has history records and cannot be deleted", 409
+            "equipment has incidents and cannot be deleted", 409
         )
 
     return equipment_crud.delete_equipment(db, equipment_id)
