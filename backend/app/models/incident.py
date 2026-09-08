@@ -5,8 +5,8 @@ from sqlalchemy import DateTime, ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-class EquipmentHistory(Base):
-    __tablename__ = "equipment_history"
+class Incident(Base):
+    __tablename__ = "incidents"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     equipment_id: Mapped[int] = mapped_column(
@@ -45,13 +45,13 @@ class EquipmentHistory(Base):
     )
 
     equipment: Mapped["Equipment"] = relationship(
-        back_populates="history_records",
+        back_populates="incidents",
     )
     reporter: Mapped["Operator"] = relationship(
         foreign_keys=[reported_by],
-        back_populates="reported_history_records",
+        back_populates="reported_incidents",
     )
     technician: Mapped["Operator"] = relationship(
         foreign_keys=[technician_id],
-        back_populates="technical_history_records",
+        back_populates="technical_incidents",
     )

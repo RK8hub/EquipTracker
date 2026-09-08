@@ -20,7 +20,7 @@ from app.database.connection import engine
 from app.middleware.auth import require_jwt
 from app.middleware.cors import setup_cors
 from app.models.base import Base
-from app.routes import assignments, auth, equipment, history, operators, specs, updates
+from app.routes import assignments, auth, equipment, incident, operators, specs, updates
 
 logger = logging.getLogger("equiptracker")
 
@@ -108,7 +108,7 @@ app.include_router(auth.router)
 app.include_router(operators.router)
 app.include_router(equipment.router)
 app.include_router(assignments.router)
-app.include_router(history.router)
+app.include_router(incident.router)
 app.include_router(specs.router)
 app.include_router(updates.router)
 

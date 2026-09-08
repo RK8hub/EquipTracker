@@ -28,6 +28,6 @@ class Equipment(Base):
         back_populates="equipment"
     )
 
-    history_records: Mapped[list["EquipmentHistory"]] = relationship(
+    incidents: Mapped[list["Incident"]] = relationship(
         back_populates="equipment"
     )

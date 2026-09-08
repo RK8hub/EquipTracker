@@ -27,11 +27,11 @@ class Operator(Base):
         back_populates="operator",
     )
 
-    reported_history_records: Mapped[list["EquipmentHistory"]] = relationship(
-        foreign_keys="EquipmentHistory.reported_by",
+    reported_incidents: Mapped[list["Incident"]] = relationship(
+        foreign_keys="Incident.reported_by",
         back_populates="reporter",
     )
-    technical_history_records: Mapped[list["EquipmentHistory"]] = relationship(
-        foreign_keys="EquipmentHistory.technician_id",
+    technical_incidents: Mapped[list["Incident"]] = relationship(
+        foreign_keys="Incident.technician_id",
         back_populates="technician",
     )

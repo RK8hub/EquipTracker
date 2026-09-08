@@ -3,7 +3,7 @@ from app.models.operator import Operator
 from app.models.equipment import Equipment
 from app.models.equipment_specs import EquipmentSpecs
 from app.models.equipment_assignment import EquipmentAssignment
-from app.models.equipment_history import EquipmentHistory
+from app.models.incident import Incident
 
 __all__ = [
     "User",
@@ -11,5 +11,5 @@ __all__ = [
     "Equipment",
     "EquipmentSpecs",
     "EquipmentAssignment",
-    "EquipmentHistory",
+    "Incident",
 ]
