@@ -19,7 +19,7 @@ class Equipment(Base):
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
     specs_id: Mapped[int] = mapped_column(
-        ForeignKey("equipment_specs.id"), nullable=False
+        ForeignKey("equipment_specs.id"), nullable=True
     )
 
     specs: Mapped["EquipmentSpecs"] = relationship(back_populates="equipment")
