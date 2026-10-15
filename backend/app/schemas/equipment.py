@@ -8,7 +8,7 @@ class EquipmentBase(BaseModel):
     serial: SerialString
     brand: NonEmptyStr
     model: NonEmptyStr
-    specs_id: Id
+    specs_id: Id | None = None
 
 
 class EquipmentCreate(EquipmentBase):
