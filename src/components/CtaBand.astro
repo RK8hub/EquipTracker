@@ -1,0 +1,42 @@
+---
+interface Props {
+    titulo: string;
+    texto?: string;
+    href: string;
+    label: string;
+    secundario?: { href: string; label: string };
+}
+
+const { titulo, texto, href, label, secundario } = Astro.props;
+---
+
+<section class="section-compact bg-card-inverse text-card-inverse-foreground">
+    <div class="wrap flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div class="max-w-2xl">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+                Siguiente paso
+            </p>
+            <h2 class="mt-2 text-[clamp(1.5rem,2.5vw,2rem)] leading-tight tracking-[-0.02em] text-card-inverse-foreground">
+                {titulo}
+            </h2>
+            {texto && (
+                <p class="mt-2 text-sm leading-relaxed text-card-inverse-foreground/75">
+                    {texto}
+                </p>
+            )}
+        </div>
+        <div class="flex flex-wrap gap-3">
+            <a href={href} class="btn-primary">
+                {label}
+            </a>
+            {secundario && (
+                <a
+                    href={secundario.href}
+                    class="btn-secondary border-card-inverse-foreground/30 bg-transparent text-card-inverse-foreground hover:border-accent hover:text-accent"
+                >
+                    {secundario.label}
+                </a>
+            )}
+        </div>
+    </div>
+</section>

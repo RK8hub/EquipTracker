@@ -1,0 +1,156 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+interface Props {
+    title?: string;
+    description?: string;
+    noIndex?: boolean;
+}
+
+const {
+    title = "EquipTracker — Control de inventario de TI",
+    description = "EquipTracker reúne equipos, operadores, asignaciones e incidencias en un solo lugar. Conoce el producto, sus modalidades y solicita una cotización.",
+    noIndex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL("/social-card.png", Astro.site).href;
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "EquipTracker",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Windows, Linux, macOS",
+    url: "https://equiptracker.rk8.dev",
+    description,
+    publisher: {
+        "@type": "Organization",
+        name: "RK8",
+        url: "https://rk8.dev",
+    },
+    offers: {
+        "@type": "Offer",
+        price: "29",
+        priceCurrency: "USD",
+        availability: "https://schema.org/PreOrder",
+        description:
+            "Plan Nube Inicial desde US$29/mes. Consulta capacidades y condiciones en el sitio.",
+    },
+};
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        {noIndex && <meta name="robots" content="noindex, follow" />}
+        <link rel="canonical" href={canonical} />
+        <link
+            id="favicon"
+            rel="icon"
+            type="image/svg+xml"
+            href="/logo-dark.svg"
+        />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="EquipTracker" />
+        <meta property="og:locale" content="es" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+            property="og:image:alt"
+            content="EquipTracker — inventario de TI, asignaciones e incidencias"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="theme-color" content="#FAFAFA" />
+        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+        <script is:inline>
+            (function () {
+                document.documentElement.classList.add("js");
+                var stored = null;
+                try {
+                    stored = localStorage.getItem("eq-theme");
+                } catch (error) {}
+                var dark =
+                    stored === "dark" ||
+                    (!stored &&
+                        window.matchMedia("(prefers-color-scheme: dark)")
+                            .matches);
+                if (dark) document.documentElement.classList.add("dark");
+                document.querySelector('meta[name="theme-color"]').content =
+                    dark ? "#1E1E1E" : "#FAFAFA";
+                document
+                    .getElementById("favicon")
+                    ?.setAttribute(
+                        "href",
+                        dark ? "/logo.svg" : "/logo-dark.svg",
+                    );
+            })();
+        </script>
+    </head>
+    <body>
+        <a
+            href="#main"
+            class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-card-inverse focus:px-4 focus:py-2 focus:text-card-inverse-foreground"
+        >
+            Saltar al contenido
+        </a>
+        <SiteHeader />
+        <main id="main">
+            <slot />
+        </main>
+        <SiteFooter />
+        <script>
+            const root = document.documentElement;
+            const themeToggle = document.getElementById("theme-toggle");
+            const themeMeta = document.querySelector(
+                'meta[name="theme-color"]',
+            );
+            const favicon = document.getElementById("favicon");
+
+            function applyTheme(dark: boolean) {
+                root.classList.toggle("dark", dark);
+                themeMeta?.setAttribute(
+                    "content",
+                    dark ? "#1E1E1E" : "#FAFAFA",
+                );
+                favicon?.setAttribute(
+                    "href",
+                    dark ? "/logo.svg" : "/logo-dark.svg",
+                );
+                themeToggle?.setAttribute("aria-pressed", String(dark));
+                try {
+                    localStorage.setItem("eq-theme", dark ? "dark" : "light");
+                } catch (error) {}
+            }
+
+            themeToggle?.addEventListener("click", () =>
+                applyTheme(!root.classList.contains("dark")),
+            );
+            applyTheme(root.classList.contains("dark"));
+
+            const themeQuery = window.matchMedia(
+                "(prefers-color-scheme: dark)",
+            );
+            themeQuery.addEventListener("change", (event) => {
+                let stored = null;
+                try {
+                    stored = localStorage.getItem("eq-theme");
+                } catch (error) {}
+                if (!stored) applyTheme(event.matches);
+            });
+        </script>
+    </body>
+</html>

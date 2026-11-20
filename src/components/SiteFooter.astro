@@ -1,0 +1,106 @@
+---
+const cols = [
+    {
+        titulo: "Producto",
+        enlaces: [
+            ["Inventario", "/producto#equipos"],
+            ["Asignaciones", "/producto#asignaciones"],
+            ["Incidencias", "/producto#incidencias"],
+            ["Seguridad y datos", "/seguridad"],
+        ],
+    },
+    {
+        titulo: "Planes",
+        enlaces: [
+            ["Nube", "/precios#nube"],
+            ["Instalación local", "/precios#local"],
+            ["Ver ofertas", "/precios"],
+            ["Cotizar", "/contacto"],
+        ],
+    },
+    {
+        titulo: "Recursos",
+        enlaces: [
+            ["Probar la demo", "/demo"],
+            ["Migrar desde Excel", "/producto#migracion"],
+            ["Soporte", "/soporte"],
+            ["Preguntas frecuentes", "/#preguntas"],
+        ],
+    },
+    {
+        titulo: "RK8",
+        enlaces: [
+            ["Acerca de", "/acerca"],
+            ["Privacidad", "/privacidad"],
+            ["Términos", "/terminos"],
+            ["rk8.dev", "https://rk8.dev"],
+        ],
+    },
+];
+---
+
+<footer class="bg-card-inverse py-12 text-card-inverse-foreground lg:py-14">
+    <div class="wrap">
+        <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
+            <div class="max-w-xs">
+                <img
+                    src="/logo-con-texto.svg"
+                    alt="EquipTracker"
+                    width="220"
+                    height="28"
+                    class="h-7 w-auto dark:hidden"
+                />
+                <img
+                    src="/logo-con-texto-dark.svg"
+                    alt="EquipTracker"
+                    width="220"
+                    height="28"
+                    class="hidden h-7 w-auto dark:block"
+                />
+                <p class="mt-4 text-sm leading-relaxed text-card-inverse-foreground/75">
+                    EquipTracker centraliza el inventario, las asignaciones y
+                    las incidencias de TI en una sola aplicación, adaptándose a
+                    las necesidades de tu empresa.
+                </p>
+                <p class="mt-4 text-sm">
+                    <a
+                        href="mailto:equiptracker@rk8.dev"
+                        class="underline underline-offset-4 hover:text-accent"
+                    >
+                        equiptracker@rk8.dev
+                    </a>
+                </p>
+                <p class="mt-2 text-xs text-card-inverse-foreground/75">
+                    EquipTracker se desarrolla en Nicaragua. Atención en horario
+                    laboral (UTC−6) por correo.
+                </p>
+            </div>
+            {cols.map((col) => (
+                <nav aria-label={col.titulo}>
+                    <p class="text-xs font-semibold uppercase tracking-[0.16em] text-card-inverse-foreground/75">
+                        {col.titulo}
+                    </p>
+                    <ul class="mt-4 space-y-2 text-sm">
+                        {col.enlaces.map(([label, href]) => (
+                            <li>
+                                <a
+                                    href={href}
+                                    class="text-card-inverse-foreground/80 hover:text-card-inverse-foreground hover:underline hover:underline-offset-4"
+                                >
+                                    {label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            ))}
+        </div>
+        <div class="mt-10 flex flex-col gap-2 border-t border-card-inverse-foreground/20 pt-5 text-xs text-card-inverse-foreground/75 sm:flex-row sm:justify-between">
+            <p>© 2026 RK8 · EquipTracker desarrollado y mantenido por RK8.</p>
+            <p>
+                Jurisdicción: Nicaragua · Datos fiscales: se entregan en la
+                cotización.
+            </p>
+        </div>
+    </div>
+</footer>

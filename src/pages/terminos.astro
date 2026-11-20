@@ -1,0 +1,231 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const secciones = [
+    {
+        id: "aceptacion",
+        titulo: "Aceptación de estos términos",
+        texto: [
+            "Estos términos regulan el uso del sitio de EquipTracker, la modalidad Nube y la instalación local cuando RK8 presta la instalación, la licencia o el soporte. Vigentes desde el 20 de noviembre de 2026.",
+            "Al navegar el sitio, contratar una oferta, usar la aplicación o instalar el software aceptas este acuerdo. Si actúas en nombre de una empresa u otra organización, declaras que tienes autoridad para aceptarlo en su nombre. Si no estás de acuerdo, no utilices el servicio.",
+            "La contratación concreta, su alcance y su pago se formalizan por escrito entre RK8 y el cliente. La información de este sitio es descriptiva y no constituye por sí sola una oferta vinculante.",
+        ],
+    },
+    {
+        id: "definiciones",
+        titulo: "Definiciones",
+        texto: [
+            "«RK8», «nosotros» o «nuestro» designa a quien desarrolla y mantiene EquipTracker. «Servicio» designa el sitio, la aplicación de escritorio, la API, la modalidad Nube y, cuando corresponda, la instalación local y el soporte contratado.",
+            "«Cliente» o «tú» designa a la persona u organización que usa el Servicio. «Datos del cliente» son los equipos, operadores, asignaciones, incidencias y demás información que registras. «Operador» es la persona que recibe o usa un equipo; no es lo mismo que un usuario con acceso a la aplicación.",
+            "«Nube» es la modalidad en la que RK8 gestiona la infraestructura, la base de datos y las actualizaciones. «Instalación local» es la modalidad en la que el software se ejecuta en la infraestructura del cliente.",
+        ],
+    },
+    {
+        id: "cuenta",
+        titulo: "Cuentas y accesos",
+        texto: [
+            "Para usar la aplicación necesitas una dirección de correo válida. Eres responsable de mantener tus credenciales en secreto y de toda la actividad que ocurra con tu cuenta, incluida la de otras personas a las que des acceso.",
+            "Según el plan contratado, el Servicio admite 1, 5 o 15 usuarios con acceso. En Nube Inicial existe un único acceso, sin roles de administrador ni staff. Los permisos disponibles dependen del plan y se aplican en el servidor.",
+            "Debes avisarnos por correo si detectas un uso no autorizado de tu cuenta o del Servicio. Los accesos se otorgan a personas; no está permitido compartir una misma credencial entre varias personas.",
+        ],
+    },
+    {
+        id: "uso",
+        titulo: "Uso permitido",
+        texto: [
+            "Puedes usar el Servicio solo para fines lícitos y de acuerdo con estos términos. En particular, no debes intentar eludir los límites del plan, saturar la infraestructura, acceder a la API sin autorización, alterar el comportamiento del Servicio ni realizar ingeniería inversa, salvo que la ley aplicable lo permita expresamente.",
+            "Tú respondes por la información que registras y por contar con los derechos necesarios sobre ella. El Servicio no está destinado a menores de edad ni a usos que infrinjan derechos de terceros.",
+        ],
+    },
+    {
+        id: "datos",
+        titulo: "Datos del cliente",
+        texto: [
+            "Los Datos del cliente son tuyos. RK8 los trata únicamente para prestar el Servicio, dar soporte y cumplir obligaciones legales. No los vendemos ni los usamos con fines publicitarios. La política de privacidad y la página de seguridad y datos describen este tratamiento con más detalle.",
+            "La exportación a CSV está disponible en Nube Equipos, Nube Integral y los tres planes locales; Nube Inicial no la incluye. La exportación o migración asistida que requiera intervención de RK8 es un servicio con coste separado y debe solicitarse mientras el servicio esté activo.",
+            "Puedes pedir la eliminación de tus datos por correo en cualquier momento, sin necesidad de tener una suscripción activa. En la modalidad Nube, RK8 elimina los datos que gestiona, salvo obligación legal de conservarlos. En instalación local, los datos permanecen en tu infraestructura y su eliminación depende de ti.",
+        ],
+    },
+    {
+        id: "licencia",
+        titulo: "Modalidades y licencia de uso",
+        texto: [
+            "En Nube, el acceso se concede mediante suscripción mientras esta esté vigente. El cliente utiliza el cliente de escritorio y no administra la base de datos ni los servidores.",
+            "En instalación local, la instalación inicial (US$199, US$349 o US$599 según el plan) es un pago único y la licencia de uso se muestra aparte: US$12/mes o US$120/año en Inicial, US$20/mes o US$200/año en Equipos y US$999 perpetua en Integral. El importe final se confirma por escrito.",
+            "En instalación local aportas la infraestructura y respondes por su administración, seguridad y copias. En Local Integral, RK8 puede gestionar las copias utilizando tu infraestructura si así se acuerda. El código publicado en los repositorios de RK8 se rige por la licencia indicada en cada repositorio.",
+        ],
+    },
+    {
+        id: "api",
+        titulo: "API e integraciones",
+        texto: [
+            "En Nube, la API para integraciones está disponible solo en el plan Integral y utiliza llaves de criptografía asimétrica junto con autenticación JWT. En instalación local, la API está disponible en los tres planes, sin límite de llamadas pero con autenticación a cargo del cliente; RK8 puede proporcionarla en Local Integral.",
+            "El límite de llamadas en Nube se aplica por plan: 70 por minuto en Inicial y 120 en Equipos, sin límite en Integral. Cuentan crear, modificar y borrar; las consultas para mostrar datos no cuentan. Al superarse, la API responde 429. El límite se lee de la configuración del contenedor del cliente y no depende de la IP de origen.",
+            "En Nube, las conexiones usan TLS en la infraestructura de RK8. En instalación local, el certificado TLS/SSL lo aporta el cliente.",
+        ],
+    },
+    {
+        id: "precios",
+        titulo: "Precios, pago y renovación",
+        texto: [
+            "Los precios publicados son de referencia, están expresados en dólares estadounidenses y son anteriores a impuestos. El ciclo anual equivale a diez mensualidades. Los importes definitivos, la forma de pago, los impuestos aplicables y la moneda de facturación se confirman en la cotización y en el contrato.",
+            "En Nube, el servicio permanece activo durante el periodo pagado. En instalación local, la instalación inicial es un pago único y la licencia se factura según el ciclo acordado. La falta de pago puede suspender el acceso tras el aviso correspondiente.",
+        ],
+    },
+    {
+        id: "soporte",
+        titulo: "Soporte y disponibilidad",
+        texto: [
+            "Las seis ofertas incluyen soporte: básico por correo en los niveles Inicial, estándar en horario laboral en Equipos y prioritario en Integral. La atención se presta por correo en horario laboral de Nicaragua (UTC−6), país de desarrollo de EquipTracker.",
+            "No prometemos disponibilidad ni tiempos de respuesta concretos sin un acuerdo escrito. Cuando se incluyan, se definirán en el contrato. La demo pública utiliza datos simulados y no ofrece soporte.",
+        ],
+    },
+    {
+        id: "propiedad",
+        titulo: "Propiedad intelectual",
+        texto: [
+            "EquipTracker, su código, su diseño y sus marcas pertenecen a su titular. El uso del Servicio no te concede derechos de propiedad sobre ellos y no puedes copiarlos, modificarlos ni redistribuirlos salvo autorización escrita o lo que permita la licencia aplicable del código abierto.",
+            "Los Datos del cliente quedan fuera de lo anterior: siguen siendo tuyos. Las marcas de terceros que aparezcan en el sitio pertenecen a sus respectivos titulares.",
+        ],
+    },
+    {
+        id: "confidencialidad",
+        titulo: "Confidencialidad",
+        texto: [
+            "Tratamos los Datos del cliente como información confidencial y limitamos su acceso a lo necesario para prestar el Servicio. Podemos divulgarlos cuando lo exija la ley, cuando sea necesario para proteger la seguridad del Servicio o cuando tú lo autorices.",
+            "En instalación local, la confidencialidad y el control de los datos dependen de las medidas que adoptes en tu infraestructura, salvo en los servicios que RK8 preste expresamente bajo contrato.",
+        ],
+    },
+    {
+        id: "cancelacion",
+        titulo: "Cancelación y terminación",
+        texto: [
+            "Puedes cancelar el Servicio escribiendo a equiptracker@rk8.dev. La cancelación se hace efectiva al final del periodo ya pagado, salvo acuerdo en contrario o suspensión por incumplimiento.",
+            "RK8 puede suspender o dar por terminado el acceso si incumples estos términos, si se produce un uso indebido del Servicio o si no se atienden las obligaciones de pago, previo aviso cuando la ley o el contrato lo requieran. Las cláusulas sobre propiedad, confidencialidad, garantías, responsabilidad y jurisdicción sobreviven a la terminación.",
+        ],
+    },
+    {
+        id: "garantias",
+        titulo: "Renuncia de garantías",
+        texto: [
+            "El Servicio se ofrece en las condiciones acordadas en el contrato. Salvo lo que la ley imponga de forma imperativa, no garantizamos que el Servicio funcione sin interrupciones, que sea infalible o que se adapte a todos los usos posibles. Tampoco prometemos plazos de respuesta sin un SLA escrito.",
+        ],
+    },
+    {
+        id: "responsabilidad",
+        titulo: "Limitación de responsabilidad",
+        texto: [
+            "En la medida permitida por la ley, RK8 no responde por daños indirectos, pérdida de beneficios ni pérdida de datos que no sean consecuencia directa del incumplimiento de sus obligaciones contractuales. Nuestra responsabilidad total se limita a los importes efectivamente pagados por el Servicio objeto del reclamo.",
+            "En instalación local, el cliente responde por su infraestructura, sus copias y la configuración de su entorno. Ninguna limitación de esta cláusula se aplica cuando la ley no lo permita.",
+        ],
+    },
+    {
+        id: "cambios",
+        titulo: "Cambios en estos términos",
+        texto: [
+            "Podemos actualizar estos términos. Publicaremos la versión vigente en esta página y avisaremos por correo cuando los cambios sean sustanciales. El uso continuado del Servicio después de la fecha de entrada en vigor implica la aceptación de la nueva versión.",
+        ],
+    },
+    {
+        id: "jurisdiccion",
+        titulo: "Ley aplicable y jurisdicción",
+        texto: [
+            "EquipTracker se desarrolla en Nicaragua. El país de referencia de RK8 para lo legal es Nicaragua y estos términos se rigen por la legislación nicaragüense, sin perjuicio de las normas imperativas que puedan resultar aplicables según el país del cliente.",
+            "Las controversias derivadas de este acuerdo se someten a los tribunales competentes de Nicaragua. La zona horaria de referencia para atención, información, desarrollo y lo legal es Nicaragua (UTC−6); la aplicación, en cambio, usa la zona horaria del dispositivo del usuario.",
+            "La razón social, la identificación fiscal y los datos de notificación legal de RK8 se entregan en la cotización y se recogen en la documentación contractual.",
+        ],
+    },
+    {
+        id: "contacto",
+        titulo: "Contacto",
+        texto: [
+            "Para cualquier consulta sobre estos términos, para cancelar el Servicio o para ejercer tus derechos sobre los datos, escríbenos a equiptracker@rk8.dev. Usamos el correo y los canales electrónicos del Servicio para las comunicaciones contractuales.",
+        ],
+    },
+];
+---
+
+<BaseLayout
+    title="Términos y condiciones — EquipTracker"
+    description="Términos y condiciones de uso de EquipTracker: cuentas, datos, licencias, precios, soporte, responsabilidad, ley aplicable y jurisdicción."
+>
+    <section class="page-header">
+        <div class="wrap">
+            <p class="eyebrow">Legal</p>
+            <h1 class="mt-3 max-w-3xl text-[clamp(2rem,3.6vw,3rem)] leading-tight tracking-[-0.02em]">
+                Términos y condiciones.
+            </h1>
+            <p class="lede mt-4 max-w-2xl">
+                Condiciones de uso del sitio, de la modalidad Nube y de la
+                instalación local de EquipTracker. Redacción vigente desde el 20
+                de noviembre de 2026.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wrap grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div class="section-head">
+                <p class="eyebrow">Resumen</p>
+                <h2 class="mt-2">Diecisiete cláusulas, en lenguaje claro.</h2>
+                <p>
+                    EquipTracker se desarrolla en Nicaragua. La ley aplicable y
+                    la jurisdicción son nicaragüenses; la razón social y los
+                    datos fiscales se completan en la contratación.
+                </p>
+                <nav aria-label="Índice de cláusulas" class="mt-6">
+                    <ol class="space-y-1 text-sm text-muted-foreground">
+                        {secciones.map((seccion, indice) => (
+                            <li>
+                                <a
+                                    class="hover:text-brand hover:underline hover:underline-offset-4"
+                                    href={`#${seccion.id}`}
+                                >
+                                    {indice + 1}. {seccion.titulo}
+                                </a>
+                            </li>
+                        ))}
+                    </ol>
+                </nav>
+                <p class="mt-6 text-sm leading-relaxed text-muted-foreground">
+                    Consulta también la{" "}
+                    <a
+                        href="/privacidad"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        política de privacidad
+                    </a>
+                    , la{" "}
+                    <a
+                        href="/seguridad"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        seguridad y datos
+                    </a>{" "}
+                    y el{" "}
+                    <a
+                        href="/contacto"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        contacto
+                    </a>
+                    .
+                </p>
+            </div>
+            <div class="divide-y divide-border border-y border-border">
+                {secciones.map((seccion, indice) => (
+                    <div id={seccion.id} class="scroll-mt-24 py-5">
+                        <h2 class="font-semibold text-foreground">
+                            {indice + 1}. {seccion.titulo}
+                        </h2>
+                        {seccion.texto.map((parrafo) => (
+                            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+                                {parrafo}
+                            </p>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+</BaseLayout>

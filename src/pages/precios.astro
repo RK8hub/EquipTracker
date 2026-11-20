@@ -1,0 +1,721 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+type Valor = "✓" | "✗" | string;
+type Fila = { etiqueta: string; valores: Valor[] };
+
+const filasNube: Fila[] = [
+    { etiqueta: "Cliente de escritorio", valores: ["✓", "✓", "✓"] },
+    {
+        etiqueta: "API REST para integraciones (requiere token)",
+        valores: ["✗", "✗", "✓"],
+    },
+    {
+        etiqueta: "Llamadas a la API por minuto",
+        valores: ["✗", "✗", "Sin límite"],
+    },
+    { etiqueta: "Certificado TLS/SSL", valores: ["✓", "✓", "✓"] },
+    { etiqueta: "Inventario y fichas de equipos", valores: ["✓", "✓", "✓"] },
+    { etiqueta: "Incidencias e historial", valores: ["✓", "✓", "✓"] },
+    {
+        etiqueta: "Accesos simultáneos",
+        valores: ["1 usuario", "5 usuarios", "15 usuarios"],
+    },
+    { etiqueta: "Roles administrador y staff", valores: ["✗", "✓", "✓"] },
+    { etiqueta: "Exportación a CSV", valores: ["✗", "✓", "✓"] },
+    { etiqueta: "Importación CSV asistida", valores: ["✗", "✓", "✓"] },
+    { etiqueta: "Respaldo", valores: ["Quincenal", "Semanal", "Diario"] },
+    { etiqueta: "Soporte", valores: ["Básico", "Estándar", "Prioritario"] },
+    { etiqueta: "Acompañamiento de RK8", valores: ["✗", "✗", "✓"] },
+];
+
+const filasLocal: Fila[] = [
+    {
+        etiqueta: "API expuesta en tu infraestructura",
+        valores: ["✓", "✓", "✓"],
+    },
+    { etiqueta: "Acceso a PostgreSQL local", valores: ["✓", "✓", "✓"] },
+    {
+        etiqueta: "Llamadas a la API por minuto",
+        valores: ["Sin límite", "Sin límite", "Sin límite"],
+    },
+    {
+        etiqueta: "Certificado TLS/SSL incluido",
+        valores: ["✗", "✗", "✗"],
+    },
+    { etiqueta: "Cliente de escritorio", valores: ["✓", "✓", "✓"] },
+    {
+        etiqueta: "Equipos, operadores y staff",
+        valores: ["Sin límite", "Sin límite", "Sin límite"],
+    },
+    { etiqueta: "Exportación a CSV", valores: ["✓", "✓", "✓"] },
+    { etiqueta: "Importación CSV asistida", valores: ["✗", "✓", "✓"] },
+    {
+        etiqueta: "Licencia de uso",
+        valores: ["Mensual o anual", "Mensual o anual", "Perpetua (US$999)"],
+    },
+    {
+        etiqueta: "Respaldo",
+        valores: [
+            "A cargo del cliente",
+            "A cargo del cliente",
+            "A cargo del cliente (RK8 puede gestionarlo)",
+        ],
+    },
+    { etiqueta: "Soporte", valores: ["Básico", "Estándar", "Prioritario"] },
+    { etiqueta: "Acompañamiento de RK8", valores: ["✗", "✗", "✓"] },
+];
+
+type Plan = {
+    nombre: string;
+    publico: string;
+    precio: string;
+    precioNota: string;
+    precioAnual: string;
+    precioAnualNota: string;
+    precio12m?: string;
+    licenciaMensual?: string;
+    licenciaAnual?: string;
+    licencia12m?: string;
+    capacidad: [string, string];
+};
+
+const modalidades: {
+    id: string;
+    etiqueta: string;
+    descripcion: string;
+    filas: Fila[];
+    planes: Plan[];
+}[] = [
+    {
+        id: "nube",
+        etiqueta: "Nube",
+        descripcion:
+            'RK8 gestiona infraestructura, copias y actualizaciones; usas el cliente de escritorio. <a href="/terminos#licencia" class="font-medium text-brand underline underline-offset-4">Ver condiciones</a>',
+        filas: filasNube,
+        planes: [
+            {
+                nombre: "Nube Inicial",
+                publico: "Para ordenar el inventario y las asignaciones.",
+                precio: "US$29",
+                precioNota: "por mes",
+                precioAnual: "US$290",
+                precioAnualNota: "al año",
+                precio12m: "US$348",
+                capacidad: ["500 asignaciones", "500 incidencias"],
+            },
+            {
+                nombre: "Nube Equipos",
+                publico: "Para organizaciones con varios usuarios.",
+                precio: "US$39",
+                precioNota: "por mes",
+                precioAnual: "US$390",
+                precioAnualNota: "al año",
+                precio12m: "US$468",
+                capacidad: ["1.500 asignaciones", "1.500 incidencias"],
+            },
+            {
+                nombre: "Nube Integral",
+                publico: "Para integraciones y acompañamiento cercano.",
+                precio: "US$59",
+                precioNota: "por mes",
+                precioAnual: "US$590",
+                precioAnualNota: "al año",
+                precio12m: "US$708",
+                capacidad: ["3.000 asignaciones", "3.000 incidencias"],
+            },
+        ],
+    },
+    {
+        id: "local",
+        etiqueta: "Instalación local",
+        descripcion:
+            'Se instala en tus servidores y los datos quedan bajo tu control. <a href="/terminos#licencia" class="font-medium text-brand underline underline-offset-4">Ver condiciones</a>',
+        filas: filasLocal,
+        planes: [
+            {
+                nombre: "Local Inicial",
+                publico: "Para instalar en tu propia infraestructura.",
+                precio: "US$199",
+                precioNota: "pago único de instalación",
+                precioAnual: "US$199",
+                precioAnualNota: "pago único de instalación",
+                licenciaMensual: "US$12/mes",
+                licenciaAnual: "US$120/año",
+                licencia12m: "US$144/año",
+                capacidad: ["Sin límite", "Sin límite"],
+            },
+            {
+                nombre: "Local Equipos",
+                publico: "Para equipos con varios usuarios.",
+                precio: "US$349",
+                precioNota: "pago único de instalación",
+                precioAnual: "US$349",
+                precioAnualNota: "pago único de instalación",
+                licenciaMensual: "US$20/mes",
+                licenciaAnual: "US$200/año",
+                licencia12m: "US$240/año",
+                capacidad: ["Sin límite", "Sin límite"],
+            },
+            {
+                nombre: "Local Integral",
+                publico: "Para despliegues con acompañamiento de RK8.",
+                precio: "US$599",
+                precioNota: "pago único de instalación",
+                precioAnual: "US$599",
+                precioAnualNota: "pago único de instalación",
+                licenciaMensual: "US$999 perpetua",
+                licenciaAnual: "US$999 perpetua",
+                capacidad: ["Sin límite", "Sin límite"],
+            },
+        ],
+    },
+];
+
+const faqs = [
+    {
+        pregunta: "¿Cuánto cuesta EquipTracker?",
+        respuesta:
+            "Los precios de referencia están en las tarjetas, en USD y antes de impuestos; la cotización confirma el importe final. Condiciones en",
+        enlace: { href: "/terminos#precios", texto: "términos y condiciones." },
+    },
+    {
+        pregunta: "¿Hay límite de equipos u operadores?",
+        respuesta:
+            "No. Equipos y operadores no tienen límite; los accesos simultáneos dependen del plan. Detalles en",
+        enlace: { href: "/terminos#cuenta", texto: "cuentas y accesos." },
+    },
+    {
+        pregunta: "¿Cuántas filas de historial se conservan?",
+        respuesta:
+            "En Nube hay un cupo por plan; en local no hay límite. Al cerrarse, cada fila queda como instantánea inmutable. Detalles en",
+        enlace: { href: "/seguridad", texto: "seguridad y datos." },
+    },
+    {
+        pregunta: "¿La API está disponible en todos los planes?",
+        respuesta:
+            "No. En Nube solo Integral incluye API; en local está en las tres ofertas. Autenticación y TLS en",
+        enlace: { href: "/terminos#api", texto: "términos y condiciones." },
+    },
+    {
+        pregunta: "¿Los planes locales tienen límites?",
+        respuesta:
+            "No. Sin límite de equipos, operadores ni filas; la licencia se factura aparte. Condiciones en",
+        enlace: { href: "/terminos#licencia", texto: "modalidades y licencia." },
+    },
+    {
+        pregunta: "¿Qué significa el soporte básico, estándar o prioritario?",
+        respuesta:
+            "Básico, estándar o prioritario según el nivel, siempre por correo en horario laboral (UTC−6). No publicamos SLA sin acuerdo escrito; ver",
+        enlace: { href: "/terminos#soporte", texto: "soporte y disponibilidad." },
+    },
+    {
+        pregunta: "¿Cómo se denominan las modalidades?",
+        respuesta:
+            "Nube (hosted) la gestionamos nosotros; local (self-hosted) la gestionas tú. Es el mismo producto. Definiciones en",
+        enlace: {
+            href: "/terminos#definiciones",
+            texto: "términos y condiciones.",
+        },
+    },
+];
+---
+
+<BaseLayout
+    title="Precios y planes — EquipTracker"
+    description="Precios de EquipTracker: planes Nube desde US$29/mes e instalación local desde US$199 más licencia. Funciones incluidas y no incluidas en cada oferta."
+>
+    <section class="page-header">
+        <div class="wrap">
+            <p class="eyebrow">Precios</p>
+            <h1 class="mt-3 max-w-3xl text-[clamp(2rem,3.6vw,3rem)] leading-tight tracking-[-0.02em]">
+                Tres tamaños, dos modalidades.
+            </h1>
+            <p class="lede mt-4 max-w-2xl">
+                Cada tarjeta muestra con ✓ y ✗ qué incluye y qué no. Mismo
+                producto en las seis ofertas.
+            </p>
+        </div>
+    </section>
+
+    <section class="section" data-planes>
+        <div class="wrap">
+            <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                <div class="section-head">
+                    <p class="eyebrow">Ofertas</p>
+                    <h2 class="mt-2">Compara por capacidad y servicios.</h2>
+                    <p>
+                        Precios de referencia en USD, antes de impuestos. La
+                        cotización confirma alcance y condiciones.
+                    </p>
+                </div>
+            </div>
+
+            <div
+                class="tabs-only relative mt-8 inline-flex w-full rounded-xl border border-border bg-page p-1.5 sm:w-auto"
+                role="tablist"
+                aria-label="Modalidades de EquipTracker"
+            >
+                <div
+                    id="tab-indicator"
+                    aria-hidden="true"
+                    class="pointer-events-none absolute inset-y-1.5 left-0 rounded-lg bg-brand transition-all duration-200"
+                ></div>
+                {modalidades.map((modalidad, indice) => (
+                    <button
+                        type="button"
+                        id={`tab-${modalidad.id}`}
+                        role="tab"
+                        aria-selected={indice === 0}
+                        aria-controls={modalidad.id}
+                        tabindex={indice === 0 ? 0 : -1}
+                        data-plan-tab={modalidad.id}
+                        class:list={[
+                            "relative z-10 min-h-11 flex-1 px-4 py-2.5 text-center text-sm font-semibold transition-colors sm:min-w-[180px] sm:flex-none",
+                            indice === 0
+                                ? "text-brand-foreground"
+                                : "text-muted-foreground hover:text-foreground",
+                        ]}
+                    >
+                        {modalidad.etiqueta}
+                    </button>
+                ))}
+            </div>
+
+            <div
+                class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2"
+                data-ciclo
+            >
+                <span
+                    id="ciclo-label"
+                    class="text-sm font-semibold text-foreground"
+                >
+                    Contratación
+                </span>
+                <div
+                    class="inline-flex rounded-lg border border-border bg-page p-1"
+                    role="radiogroup"
+                    aria-labelledby="ciclo-label"
+                >
+                    <button
+                        type="button"
+                        role="radio"
+                        aria-checked="true"
+                        tabindex="0"
+                        data-ciclo-opcion="mensual"
+                        class="min-h-9 rounded-md bg-brand px-4 py-1.5 text-sm font-semibold text-brand-foreground"
+                    >
+                        Mensual
+                    </button>
+                    <button
+                        type="button"
+                        role="radio"
+                        aria-checked="false"
+                        tabindex="-1"
+                        data-ciclo-opcion="anual"
+                        class="min-h-9 rounded-md px-4 py-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground"
+                    >
+                        Anual
+                    </button>
+                </div>
+                <p class="text-xs text-muted-foreground">
+                    Anual: diez mensualidades. En local, la instalación no
+                    cambia.{" "}
+                    <a
+                        href="/terminos#precios"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        Detalles
+                    </a>
+                </p>
+            </div>
+
+            {modalidades.map((modalidad, indiceModalidad) => (
+                <div
+                    id={modalidad.id}
+                    role="tabpanel"
+                    aria-labelledby={`tab-${modalidad.id}`}
+                    tabindex="0"
+                    data-plan-panel={modalidad.id}
+                    class:list={[
+                        "mt-8 grid grid-cols-1 gap-6 md:grid-cols-3",
+                        indiceModalidad > 0 &&
+                            "mt-10 border-t border-border pt-10",
+                    ]}
+                >
+                    <p
+                        class="mb-2 text-sm leading-relaxed text-muted-foreground md:col-span-3"
+                        set:html={modalidad.descripcion}
+                    />
+                    {modalidad.planes.map((plan, indicePlan) => (
+                        <article class="flex h-full flex-col rounded-xl border border-border bg-card p-6">
+                            <h3 class="text-xl font-semibold">{plan.nombre}</h3>
+                            <p class="mt-2 min-h-[40px] text-sm leading-relaxed text-muted-foreground">
+                                {plan.publico}
+                            </p>
+                            <div class="mt-5 border-b border-border pb-5">
+                                <p
+                                    class="text-2xl font-semibold tracking-tight text-foreground"
+                                    data-precio
+                                    data-precio-mensual={plan.precio}
+                                    data-precio-anual={plan.precioAnual}
+                                >
+                                    {plan.precio}
+                                </p>
+                                <p
+                                    class="mt-1 text-xs leading-relaxed text-muted-foreground"
+                                    data-nota
+                                    data-nota-mensual={plan.precioNota}
+                                    data-nota-anual={plan.precioAnualNota}
+                                >
+                                    {plan.precioNota}
+                                </p>
+                                {plan.precio12m && (
+                                    <p
+                                        data-comparativa
+                                        hidden
+                                        class="mt-2 text-xs leading-relaxed text-muted-foreground"
+                                    >
+                                        Antes{" "}
+                                        <s data-precio-12m>{plan.precio12m}</s>{" "}
+                                        por 12 meses ·{" "}
+                                        <span class="rounded-full bg-brand/10 px-2 py-0.5 font-semibold text-brand">
+                                            Ahorra 2 meses
+                                        </span>
+                                    </p>
+                                )}
+                                {plan.licenciaMensual && (
+                                    <p
+                                        class="mt-3 flex items-baseline justify-between gap-3 rounded-lg bg-page px-3 py-2"
+                                    >
+                                        <span class="text-xs text-muted-foreground">
+                                            Licencia de uso
+                                        </span>
+                                        <span
+                                            class="text-sm font-semibold text-foreground"
+                                            data-licencia
+                                            data-licencia-mensual={
+                                                plan.licenciaMensual
+                                            }
+                                            data-licencia-anual={
+                                                plan.licenciaAnual
+                                            }
+                                        >
+                                            {plan.licenciaMensual}
+                                        </span>
+                                    </p>
+                                )}
+                                {plan.licencia12m && (
+                                    <p
+                                        data-comparativa
+                                        hidden
+                                        class="mt-2 text-xs leading-relaxed text-muted-foreground"
+                                    >
+                                        Antes <s>{plan.licencia12m}</s> por 12
+                                        meses ·{" "}
+                                        <span class="rounded-full bg-brand/10 px-2 py-0.5 font-semibold text-brand">
+                                            Ahorra 2 meses
+                                        </span>
+                                    </p>
+                                )}
+                            </div>
+                            <dl class="mt-5 grid grid-cols-2 gap-3 text-sm">
+                                <div class="rounded-lg bg-page px-3 py-2">
+                                    <dt class="text-xs text-muted-foreground">
+                                        Historial de asignaciones
+                                    </dt>
+                                    <dd class="mt-0.5 font-semibold text-foreground">
+                                        {plan.capacidad[0]}
+                                    </dd>
+                                </div>
+                                <div class="rounded-lg bg-page px-3 py-2">
+                                    <dt class="text-xs text-muted-foreground">
+                                        Historial de incidencias
+                                    </dt>
+                                    <dd class="mt-0.5 font-semibold text-foreground">
+                                        {plan.capacidad[1]}
+                                    </dd>
+                                </div>
+                            </dl>
+                            <p class="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                                <span
+                                    aria-hidden="true"
+                                    class="text-base leading-none font-semibold text-brand"
+                                >
+                                    ∞
+                                </span>{" "}
+                                Equipos y operadores sin límite
+                            </p>
+                            <p class="mb-2 mt-6 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                                Qué incluye
+                            </p>
+                            <ul class="flex-grow divide-y divide-border/70 text-sm">
+                                {modalidad.filas.map((fila) => {
+                                    const valor = fila.valores[indicePlan];
+                                    const incluido = valor === "✓";
+                                    const excluido = valor === "✗";
+                                    return (
+                                        <li class="flex items-start gap-3 py-2">
+                                            <span
+                                                aria-hidden="true"
+                                                class:list={[
+                                                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-sm font-bold",
+                                                    incluido
+                                                        ? "bg-brand/10 text-brand"
+                                                        : excluido
+                                                          ? "bg-page text-muted-foreground"
+                                                          : "text-foreground",
+                                                ]}
+                                            >
+                                                {incluido
+                                                    ? "✓"
+                                                    : excluido
+                                                      ? "✗"
+                                                      : ""}
+                                            </span>
+                                            <span
+                                                class:list={[
+                                                    "leading-snug",
+                                                    excluido
+                                                        ? "text-muted-foreground"
+                                                        : "text-foreground",
+                                                ]}
+                                            >
+                                                {incluido && (
+                                                    <span class="sr-only">
+                                                        Incluido:{" "}
+                                                    </span>
+                                                )}
+                                                {excluido && (
+                                                    <span class="sr-only">
+                                                        No incluido:{" "}
+                                                    </span>
+                                                )}
+                                                {fila.etiqueta}
+                                                {!incluido &&
+                                                    !excluido &&
+                                                    `: ${valor}`}
+                                            </span>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                            <a
+                                href={`/contacto?plan=${encodeURIComponent(plan.nombre)}`}
+                                class="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+                            >
+                                Cotizar {plan.nombre}{" "}
+                                <span aria-hidden="true">→</span>
+                            </a>
+                        </article>
+                    ))}
+                </div>
+            ))}
+
+            <p class="mt-10 text-sm leading-relaxed text-muted-foreground">
+                Los importes se confirman en la cotización. Consulta la{" "}
+                <a
+                    href="/terminos#licencia"
+                    class="font-medium text-brand underline underline-offset-4"
+                >
+                    licencia de uso
+                </a>{" "}
+                y los{" "}
+                <a
+                    href="/terminos#api"
+                    class="font-medium text-brand underline underline-offset-4"
+                >
+                    límites de API y el TLS
+                </a>{" "}
+                en los términos y condiciones.{" "}
+                <a
+                    href="/contacto"
+                    class="font-medium text-brand underline underline-offset-4"
+                >
+                    Hablemos de tu caso
+                </a>
+                .
+            </p>
+        </div>
+
+        <script>
+            const container =
+                document.querySelector<HTMLElement>("[data-planes]");
+            const tabs = Array.from(
+                document.querySelectorAll<HTMLButtonElement>("[data-plan-tab]"),
+            );
+            const indicator = document.getElementById("tab-indicator");
+
+            function selectTab(
+                selected: HTMLButtonElement,
+                updateHash = false,
+            ) {
+                tabs.forEach((tab) => {
+                    const active = tab === selected;
+                    tab.setAttribute("aria-selected", String(active));
+                    tab.tabIndex = active ? 0 : -1;
+                    tab.classList.toggle("text-brand-foreground", active);
+                    tab.classList.toggle("text-muted-foreground", !active);
+                    const panel = document.getElementById(
+                        tab.getAttribute("aria-controls") ?? "",
+                    );
+                    if (panel) panel.hidden = !active;
+                });
+                if (indicator) {
+                    indicator.style.width = `${selected.offsetWidth}px`;
+                    indicator.style.transform = `translateX(${selected.offsetLeft}px)`;
+                }
+                if (updateHash)
+                    history.replaceState(
+                        null,
+                        "",
+                        `#${selected.dataset.planTab}`,
+                    );
+            }
+
+            tabs.forEach((tab, indice) => {
+                tab.addEventListener("click", () => selectTab(tab, true));
+                tab.addEventListener("keydown", (event) => {
+                    let destino: number | null = null;
+                    if (event.key === "ArrowRight")
+                        destino = (indice + 1) % tabs.length;
+                    if (event.key === "ArrowLeft")
+                        destino = (indice - 1 + tabs.length) % tabs.length;
+                    if (event.key === "Home") destino = 0;
+                    if (event.key === "End") destino = tabs.length - 1;
+                    if (destino === null) return;
+                    event.preventDefault();
+                    tabs[destino].focus();
+                    selectTab(tabs[destino], true);
+                });
+            });
+
+            const inicial =
+                location.hash === "#local"
+                    ? tabs.find((tab) => tab.dataset.planTab === "local")
+                    : tabs[0];
+            if (inicial) selectTab(inicial);
+            container?.classList.add("js-tabs");
+
+            const cicloBotones = Array.from(
+                document.querySelectorAll<HTMLButtonElement>(
+                    "[data-ciclo-opcion]",
+                ),
+            );
+            function selectCiclo(ciclo: "mensual" | "anual") {
+                cicloBotones.forEach((boton) => {
+                    const activo = boton.dataset.cicloOpcion === ciclo;
+                    boton.setAttribute("aria-checked", String(activo));
+                    boton.tabIndex = activo ? 0 : -1;
+                    boton.classList.toggle("bg-brand", activo);
+                    boton.classList.toggle("text-brand-foreground", activo);
+                    boton.classList.toggle("text-muted-foreground", !activo);
+                });
+                document
+                    .querySelectorAll<HTMLElement>("[data-precio]")
+                    .forEach((el) => {
+                        el.textContent =
+                            ciclo === "anual"
+                                ? (el.dataset.precioAnual ?? "")
+                                : (el.dataset.precioMensual ?? "");
+                    });
+                document
+                    .querySelectorAll<HTMLElement>("[data-nota]")
+                    .forEach((el) => {
+                        el.textContent =
+                            ciclo === "anual"
+                                ? (el.dataset.notaAnual ?? "")
+                                : (el.dataset.notaMensual ?? "");
+                    });
+                document
+                    .querySelectorAll<HTMLElement>("[data-licencia]")
+                    .forEach((el) => {
+                        el.textContent =
+                            ciclo === "anual"
+                                ? (el.dataset.licenciaAnual ?? "")
+                                : (el.dataset.licenciaMensual ?? "");
+                    });
+                document
+                    .querySelectorAll<HTMLElement>("[data-comparativa]")
+                    .forEach((el) => {
+                        el.hidden = ciclo !== "anual";
+                    });
+            }
+            cicloBotones.forEach((boton, indice) => {
+                boton.addEventListener("click", () =>
+                    selectCiclo(
+                        boton.dataset.cicloOpcion as "mensual" | "anual",
+                    ),
+                );
+                boton.addEventListener("keydown", (event) => {
+                    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft")
+                        return;
+                    event.preventDefault();
+                    const paso =
+                        event.key === "ArrowRight"
+                            ? 1
+                            : cicloBotones.length - 1;
+                    const destino =
+                        cicloBotones[(indice + paso) % cicloBotones.length];
+                    destino.focus();
+                    selectCiclo(
+                        destino.dataset.cicloOpcion as "mensual" | "anual",
+                    );
+                });
+            });
+
+            window.addEventListener("resize", () => {
+                const activo = document.querySelector<HTMLButtonElement>(
+                    '[data-plan-tab][aria-selected="true"]',
+                );
+                if (activo && indicator) {
+                    indicator.style.width = `${activo.offsetWidth}px`;
+                    indicator.style.transform = `translateX(${activo.offsetLeft}px)`;
+                }
+            });
+        </script>
+    </section>
+
+    <section class="section-compact border-t border-border bg-page">
+        <div class="wrap grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div class="section-head">
+                <p class="eyebrow">Antes de elegir</p>
+                <h2 class="mt-2">Preguntas frecuentes.</h2>
+                <p>
+                    Si tienes dudas,{" "}
+                    <a
+                        href="/contacto"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        escríbenos
+                    </a>
+                    .
+                </p>
+            </div>
+            <div class="divide-y divide-border border-y border-border">
+                {faqs.map((faq) => (
+                    <details class="group py-5">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-6 font-semibold text-foreground marker:content-none">
+                            {faq.pregunta}
+                            <span
+                                aria-hidden="true"
+                                class="text-xl font-normal text-brand transition-transform group-open:rotate-45"
+                            >
+                                +
+                            </span>
+                        </summary>
+                        <p class="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
+                            {faq.respuesta}{" "}
+                            <a
+                                href={faq.enlace.href}
+                                class="font-medium text-brand underline underline-offset-4"
+                            >
+                                {faq.enlace.texto}
+                            </a>
+                        </p>
+                    </details>
+                ))}
+            </div>
+        </div>
+    </section>
+</BaseLayout>

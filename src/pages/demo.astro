@@ -1,0 +1,153 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const demoUrl = "https://demo.equiptracker.rk8.dev";
+
+const pasos = [
+    [
+        "Registra un equipo",
+        "Alta con número de serie, marca, modelo y especificaciones.",
+    ],
+    [
+        "Asigna un operador",
+        "Une el equipo a una persona y conserva la fecha de entrega.",
+    ],
+    [
+        "Reporta una incidencia",
+        "Abre un problema desde la ficha del equipo y cambia su estado.",
+    ],
+    [
+        "Consulta el tablero",
+        "Revisa el estado general del inventario y las incidencias.",
+    ],
+    [
+        "Consulta el historial",
+        "Al cerrar una incidencia, revísala como instantánea inmutable.",
+    ],
+];
+---
+
+<BaseLayout
+    title="Demo — EquipTracker"
+    description="Prueba EquipTracker en el entorno de demostración: registra equipos, asigna operadores, reporta incidencias, consulta el tablero y revisa el historial."
+>
+    <section class="page-header">
+        <div class="wrap">
+            <p class="eyebrow">Demo</p>
+            <h1 class="mt-3 max-w-3xl text-[clamp(2rem,3.6vw,3rem)] leading-tight tracking-[-0.02em]">
+                Ve EquipTracker funcionando antes de decidir.
+            </h1>
+            <p class="lede mt-4 max-w-2xl">
+                Un único entorno de demostración para recorrer inventario,
+                asignaciones e incidencias.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wrap grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+            <div>
+                <div class="section-head">
+                    <p class="eyebrow">Qué puedes probar</p>
+                    <h2 class="mt-2">Cinco flujos básicos.</h2>
+                    <p>
+                        Las acciones que harías con tus propios equipos, con
+                        datos de ejemplo.
+                    </p>
+                </div>
+                <ol class="mt-6 grid gap-4 sm:grid-cols-2">
+                    {pasos.map(([titulo, texto], indice) => (
+                        <li class="rounded-lg border border-border bg-card p-4">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/10 text-sm font-semibold text-brand">
+                                {indice + 1}
+                            </span>
+                            <h3 class="mt-3 font-semibold">{titulo}</h3>
+                            <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+                                {texto}
+                            </p>
+                        </li>
+                    ))}
+                </ol>
+            </div>
+
+            <div class="rounded-xl border border-border bg-card p-6">
+                <h2 class="text-xl font-semibold">Condiciones de la demo.</h2>
+                <dl class="mt-5 divide-y divide-border text-sm">
+                    <div class="py-3">
+                        <dt class="font-semibold text-foreground">Destino</dt>
+                        <dd class="mt-1 break-all">
+                            <a
+                                href={demoUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-brand underline underline-offset-4"
+                            >
+                                demo.equiptracker.rk8.dev
+                                <span class="sr-only">
+                                    {" "}
+                                    (se abre en otra pestaña)
+                                </span>
+                                <span aria-hidden="true"> ↗</span>
+                            </a>
+                        </dd>
+                    </div>
+                    <div class="py-3">
+                        <dt class="font-semibold text-foreground">Acceso</dt>
+                        <dd class="mt-1 text-muted-foreground">
+                            Pública y gratuita: abre el enlace, sin credenciales
+                            ni registro.
+                        </dd>
+                    </div>
+                    <div class="py-3">
+                        <dt class="font-semibold text-foreground">
+                            Datos y reinicio
+                        </dt>
+                        <dd class="mt-1 text-muted-foreground">
+                            Los datos son simulados. Al reiniciar se descartan
+                            los cambios y la demo vuelve a su estado inicial.
+                        </dd>
+                    </div>
+                    <div class="py-3">
+                        <dt class="font-semibold text-foreground">
+                            Alcance de la demo
+                        </dt>
+                        <dd class="mt-1 text-muted-foreground">
+                            Entorno de demostración con funciones limitadas y
+                            datos simulados; no representa el rendimiento de una
+                            instalación real.
+                        </dd>
+                    </div>
+                    <div class="py-3">
+                        <dt class="font-semibold text-foreground">
+                            Uso de los datos que introduzcas
+                        </dt>
+                        <dd class="mt-1 text-muted-foreground">
+                            Introduce solo datos de prueba: no se envían a
+                            ningún servidor.
+                        </dd>
+                    </div>
+                </dl>
+                <a
+                    href={demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-primary mt-6 w-full"
+                >
+                    Abrir la demo
+                    <span class="sr-only"> (se abre en otra pestaña)</span>
+                    <span aria-hidden="true"> ↗</span>
+                </a>
+                <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+                    ¿Necesitas acompañamiento o un entorno con tus datos?{" "}
+                    <a
+                        href="/contacto"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        Escríbenos
+                    </a>
+                    .
+                </p>
+            </div>
+        </div>
+    </section>
+</BaseLayout>

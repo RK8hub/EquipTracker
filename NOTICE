@@ -1,0 +1,20 @@
+AVISOS DE TERCEROS — EquipTracker (sitio web)
+
+Este producto incluye o depende de los siguientes componentes de terceros.
+Cada uno se rige por su propia licencia; este aviso no modifica sus términos.
+
+Dependencias de ejecución y construcción
+----------------------------------------
+Astro .................... MIT ........ Copyright (c) Astro Technology Company
+Tailwind CSS ............. MIT ........ Copyright (c) Tailwind Labs, Inc.
+
+Los textos completos de cada licencia están disponibles en los repositorios
+oficiales de cada proyecto y en el directorio node_modules tras la instalación.
+
+Marca
+-----
+"EquipTracker" y "RK8" son marcas de Raúl Emmanuel Aguilar González (RK8).
+La licencia de uso del código no concede derecho alguno sobre estas marcas.
+Los logotipos y las capturas provisionales se describen en ASSETS.md.
+
+Última actualización: 20 de noviembre de 2026.

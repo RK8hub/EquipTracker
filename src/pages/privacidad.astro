@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const bloques = [
+    [
+        "Qué datos tratamos",
+        "En este sitio no hay formularios de captura. Si nos escribes por correo, recibimos los datos que decidas incluir en tu mensaje: nombre, organización, correo y cualquier información que nos envíes para una cotización.",
+    ],
+    [
+        "Datos de la aplicación",
+        "Además de lo que nos envías por correo, en la modalidad Nube RK8 aloja la información que registras en EquipTracker —equipos, operadores, asignaciones e incidencias— para poder prestar el servicio. En instalación local, esos datos permanecen en tu infraestructura y bajo tu control.",
+    ],
+    [
+        "Para qué los usamos",
+        "Para responder tu consulta, preparar una cotización, prestar el Servicio y dar soporte cuando ya eres cliente. No usamos esos datos para publicidad ni los vendemos a terceros.",
+    ],
+    [
+        "Cuánto tiempo los conservamos",
+        "No publicamos un plazo de retención sin haberlo definido. Puedes pedir la eliminación de tus datos en cualquier momento: RK8 elimina los que gestiona, salvo obligación legal de conservarlos. La migración o exportación asistida es un trámite distinto y debe pedirse mientras el servicio esté activo.",
+    ],
+    [
+        "Terceros",
+        "Este sitio es estático: no carga fuentes externas ni servicios de analítica. El alojamiento y el correo pueden tratar datos técnicos necesarios para prestar el servicio; el proveedor y la región concretos están pendientes de completar.",
+    ],
+    [
+        "Tus derechos",
+        "Puedes pedir acceso, corrección o eliminación de tus datos escribiendo a equiptracker@rk8.dev. Responderemos según la normativa aplicable, con Nicaragua como país de desarrollo y jurisdicción de RK8, y según las normas del país del titular cuando resulten aplicables.",
+    ],
+    [
+        "Jurisdicción",
+        "EquipTracker se desarrolla en Nicaragua, que es el país de referencia legal y la jurisdicción de RK8. Esta política se rige por la ley nicaragüense, sin perjuicio de las normas imperativas que correspondan según el país del titular.",
+    ],
+    [
+        "Cambios",
+        "Esta política puede actualizarse. La versión vigente será la publicada en esta página; los cambios sustanciales se comunican según los términos y condiciones.",
+    ],
+];
+---
+
+<BaseLayout
+    title="Privacidad — EquipTracker"
+    description="Cómo trata RK8 los datos del correo y de la aplicación en EquipTracker, qué derechos tienes y cuál es la jurisdicción aplicable."
+>
+    <section class="page-header">
+        <div class="wrap">
+            <p class="eyebrow">Legal</p>
+            <h1 class="mt-3 max-w-3xl text-[clamp(2rem,3.6vw,3rem)] leading-tight tracking-[-0.02em]">
+                Política de privacidad.
+            </h1>
+            <p class="lede mt-4 max-w-2xl">
+                Explicamos qué datos recibimos cuando nos escribes y qué hacemos
+                con ellos.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wrap grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div class="section-head">
+                <p class="eyebrow">Resumen</p>
+                <h2 class="mt-2">Sin formularios, sin analítica.</h2>
+                <p>
+                    El contacto se hace desde tu propio correo. Esta política
+                    complementa los{" "}
+                    <a
+                        href="/terminos"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        términos y condiciones
+                    </a>{" "}
+                    y la información de{" "}
+                    <a
+                        href="/seguridad"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        seguridad y datos
+                    </a>
+                    . Si quieres ejercer tus derechos, escríbenos a{" "}
+                    <a
+                        href="mailto:equiptracker@rk8.dev"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        equiptracker@rk8.dev
+                    </a>
+                    .
+                </p>
+            </div>
+            <div class="divide-y divide-border border-y border-border">
+                {bloques.map(([titulo, texto]) => (
+                    <div class="py-5">
+                        <h2 class="font-semibold text-foreground">{titulo}</h2>
+                        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+                            {texto}
+                        </p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+</BaseLayout>

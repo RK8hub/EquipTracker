@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750" role="img" aria-label="Placeholder: captura real pendiente de la ficha de un equipo">
+  <rect width="1200" height="750" fill="#F3F3F3"/>
+  <rect x="24" y="24" width="1152" height="702" rx="16" fill="#FFFFFF" stroke="#DFDFDF" stroke-width="2"/>
+  <rect x="24" y="24" width="1152" height="72" rx="16" fill="#212121"/>
+  <circle cx="64" cy="60" r="7" fill="#0965AC"/>
+  <text x="88" y="65" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#F6F7F9">PLACEHOLDER · Ficha de equipo</text>
+  <text x="72" y="150" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#2E2E2E">Dell Latitude 5440</text>
+  <text x="72" y="190" font-family="Arial, sans-serif" font-size="17" fill="#5D5D5D">Aquí va la captura real de la ficha: serie, marca, modelo, CPU, RAM, almacenamiento y gráficos.</text>
+  <g>
+    <rect x="72" y="230" width="1056" height="64" rx="8" fill="#F3F3F3"/><rect x="72" y="310" width="1056" height="64" rx="8" fill="#FFFFFF"/><rect x="72" y="390" width="1056" height="64" rx="8" fill="#F3F3F3"/><rect x="72" y="470" width="1056" height="64" rx="8" fill="#FFFFFF"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="18" fill="#2E2E2E">
+    <text x="96" y="270">Número de serie</text><text x="96" y="350">CPU</text><text x="96" y="430">Memoria</text><text x="96" y="510">Gráficos</text>
+  </g>
+  <text x="72" y="676" font-family="Arial, sans-serif" font-size="16" fill="#5D5D5D">Sustituye este archivo por captures/ficha-equipo.png cuando tengas la imagen real.</text>
+</svg>

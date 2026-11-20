@@ -1,0 +1,129 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const faqs = [
+    {
+        pregunta: "¿Cómo solicito soporte?",
+        respuesta:
+            "Escríbenos a equiptracker@rk8.dev desde la página de contacto con tu caso y la modalidad contratada.",
+    },
+    {
+        pregunta: "¿El soporte está incluido en todas las ofertas?",
+        respuesta:
+            "Sí, las seis ofertas incluyen soporte. El alcance cambia: básico por correo en los niveles Inicial, estándar en horario laboral en Equipos y prioritario en Integral. Los tiempos concretos de respuesta se acuerdan en la cotización; no publicamos un SLA sin definirlo antes.",
+    },
+    {
+        pregunta: "¿Quién gestiona las actualizaciones?",
+        respuesta:
+            "En la nube las gestiona RK8. En instalación local, la licencia anual publicada cubre solo el derecho de uso; el mantenimiento y las actualizaciones se contratan aparte mediante un acuerdo anual.",
+    },
+    {
+        pregunta: "¿Hay un horario de atención publicado?",
+        respuesta:
+            "Atendemos por correo en horario laboral de Nicaragua (UTC−6), país de desarrollo y referencia para atención, información y lo legal. No hay canales adicionales. El programa, en cambio, usa la zona horaria del dispositivo de cada usuario.",
+    },
+];
+---
+
+<BaseLayout
+    title="Soporte — EquipTracker"
+    description="Cómo funciona el soporte de EquipTracker, qué incluye cada modalidad y cómo contactar con RK8."
+>
+    <section class="page-header">
+        <div class="wrap">
+            <p class="eyebrow">Soporte</p>
+            <h1 class="mt-3 max-w-3xl text-[clamp(2rem,3.6vw,3rem)] leading-tight tracking-[-0.02em]">
+                Hablas con quien construye EquipTracker.
+            </h1>
+            <p class="lede mt-4 max-w-2xl">
+                El soporte lo atiende RK8 directamente. Canal, alcance y tiempos
+                se detallan según la oferta.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wrap grid gap-10 lg:grid-cols-2 lg:gap-16">
+            <div class="section-head">
+                <p class="eyebrow">Canal y alcance</p>
+                <h2 class="mt-2">Un solo canal, tres niveles.</h2>
+                <p>
+                    El correo es el canal de soporte. Las ofertas se diferencian
+                    por el nivel de atención, no por la existencia de soporte.
+                </p>
+                <a href="/contacto" class="btn-primary mt-6">
+                    Contactar con RK8
+                </a>
+            </div>
+            <div class="divide-y divide-border border-y border-border">
+                <div class="grid gap-2 py-5 sm:grid-cols-[150px_1fr]">
+                    <h3 class="font-semibold text-foreground">Inicial</h3>
+                    <p class="text-sm leading-relaxed text-muted-foreground">
+                        Soporte básico por correo, sin tiempo de respuesta
+                        garantizado.
+                    </p>
+                </div>
+                <div class="grid gap-2 py-5 sm:grid-cols-[150px_1fr]">
+                    <h3 class="font-semibold text-foreground">Equipos</h3>
+                    <p class="text-sm leading-relaxed text-muted-foreground">
+                        Soporte estándar por correo en horario laboral, con zona
+                        horaria de referencia Nicaragua (UTC−6).
+                    </p>
+                </div>
+                <div class="grid gap-2 py-5 sm:grid-cols-[150px_1fr]">
+                    <h3 class="font-semibold text-foreground">Integral</h3>
+                    <p class="text-sm leading-relaxed text-muted-foreground">
+                        Soporte prioritario con tiempo de respuesta definido en
+                        la cotización.
+                    </p>
+                </div>
+                <div class="grid gap-2 py-5 sm:grid-cols-[150px_1fr]">
+                    <h3 class="font-semibold text-foreground">
+                        Instalación local
+                    </h3>
+                    <p class="text-sm leading-relaxed text-muted-foreground">
+                        La licencia anual cubre el derecho de uso. Mantenimiento
+                        y actualizaciones mediante contrato anual separado.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-compact border-t border-border bg-page">
+        <div class="wrap grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div class="section-head">
+                <p class="eyebrow">Preguntas frecuentes</p>
+                <h2 class="mt-2">Respuestas claras.</h2>
+                <p>
+                    ¿No encuentras tu respuesta?{" "}
+                    <a
+                        href="/contacto"
+                        class="font-medium text-brand underline underline-offset-4"
+                    >
+                        Escríbenos
+                    </a>
+                    .
+                </p>
+            </div>
+            <div class="divide-y divide-border border-y border-border">
+                {faqs.map((faq) => (
+                    <details class="group py-5">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-6 font-semibold text-foreground marker:content-none">
+                            {faq.pregunta}
+                            <span
+                                aria-hidden="true"
+                                class="text-xl font-normal text-brand transition-transform group-open:rotate-45"
+                            >
+                                +
+                            </span>
+                        </summary>
+                        <p class="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
+                            {faq.respuesta}
+                        </p>
+                    </details>
+                ))}
+            </div>
+        </div>
+    </section>
+</BaseLayout>

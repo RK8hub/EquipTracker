@@ -1,0 +1,217 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const correo = "equiptracker@rk8.dev";
+const planes = [
+    "Nube Inicial",
+    "Nube Equipos",
+    "Nube Integral",
+    "Local Inicial",
+    "Local Equipos",
+    "Local Integral",
+];
+
+const asunto = "Consulta sobre EquipTracker";
+const cuerpo =
+    "Hola, quisiera recibir información sobre EquipTracker.\n\nEquipos aproximados:\nUsuarios aproximados:\nOrganización:\n";
+const mailto = `mailto:${correo}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+---
+
+<BaseLayout
+    title="Contacto — EquipTracker"
+    description="Escríbenos a equiptracker@rk8.dev para cotizar EquipTracker, resolver dudas sobre el producto o pedir acceso a la demo."
+>
+    <section class="page-header">
+        <div class="wrap">
+            <p class="eyebrow">Contacto</p>
+            <h1 class="mt-3 max-w-3xl text-[clamp(2rem,3.6vw,3rem)] leading-tight tracking-[-0.02em]">
+                Cuéntanos qué necesitas.
+            </h1>
+            <p class="lede mt-4 max-w-2xl">
+                Escríbenos para recibir una cotización o resolver dudas.
+                Atendemos directamente desde RK8.
+            </p>
+        </div>
+    </section>
+
+    <section class="section" data-contacto data-planes={JSON.stringify(planes)}>
+        <div class="wrap grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
+            <div>
+                <div class="section-head">
+                    <p class="eyebrow">Correo</p>
+                    <h2 class="mt-2">Escríbenos directamente.</h2>
+                    <p>
+                        Nuestro canal de contacto es el correo. No hay
+                        formulario: tu mensaje sale desde tu propia aplicación
+                        de correo.
+                    </p>
+                </div>
+                <a
+                    id="mailto-contacto"
+                    href={mailto}
+                    class="mt-8 inline-flex max-w-full break-all items-center gap-2 rounded-lg border border-brand bg-brand px-5 py-3 text-base font-semibold text-brand-foreground transition hover:bg-brand-hover"
+                >
+                    <svg
+                        aria-hidden="true"
+                        viewBox="0 0 20 20"
+                        class="h-5 w-5 shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                    >
+                        <rect x="2.5" y="4.5" width="15" height="11" rx="2" />
+                        <path d="m3 5 7 6 7-6" />
+                    </svg>
+                    {correo}
+                </a>
+                <div class="mt-5 flex flex-wrap items-center gap-4">
+                    <button
+                        type="button"
+                        id="copiar-correo"
+                        data-correo={correo}
+                        class="text-sm font-semibold text-brand underline underline-offset-4"
+                    >
+                        Copiar dirección
+                    </button>
+                    <p
+                        id="copiar-estado"
+                        role="status"
+                        aria-live="polite"
+                        class="text-sm text-muted-foreground"
+                    ></p>
+                </div>
+                <p
+                    id="plan-contexto"
+                    hidden
+                    class="mt-6 rounded-lg border border-border bg-page p-4 text-sm text-muted-foreground"
+                ></p>
+            </div>
+
+            <div class="rounded-xl border border-border bg-card p-6">
+                <h2 class="text-xl font-semibold">
+                    Qué conviene incluir en tu mensaje.
+                </h2>
+                <ul class="mt-5 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                    <li class="flex gap-3">
+                        <span
+                            aria-hidden="true"
+                            class="font-semibold text-brand"
+                        >
+                            ·
+                        </span>{" "}
+                        Número aproximado de equipos y de usuarios con acceso.
+                    </li>
+                    <li class="flex gap-3">
+                        <span
+                            aria-hidden="true"
+                            class="font-semibold text-brand"
+                        >
+                            ·
+                        </span>{" "}
+                        Modalidad preferida: Nube o instalación local.
+                    </li>
+                    <li class="flex gap-3">
+                        <span
+                            aria-hidden="true"
+                            class="font-semibold text-brand"
+                        >
+                            ·
+                        </span>{" "}
+                        Organización y país, si quieres que adaptemos la
+                        cotización.
+                    </li>
+                    <li class="flex gap-3">
+                        <span
+                            aria-hidden="true"
+                            class="font-semibold text-brand"
+                        >
+                            ·
+                        </span>{" "}
+                        Si vienes de Excel, indícanos cuántas filas quieres
+                        migrar.
+                    </li>
+                </ul>
+                <dl class="mt-8 divide-y divide-border border-t border-border text-sm">
+                    <div class="flex flex-wrap justify-between gap-2 py-3">
+                        <dt class="font-semibold text-foreground">Demo</dt>
+                        <dd>
+                            <a
+                                href="/demo"
+                                class="text-brand underline underline-offset-4"
+                            >
+                                Abrir entorno de demostración
+                            </a>
+                        </dd>
+                    </div>
+                    <div class="flex flex-wrap justify-between gap-2 py-3">
+                        <dt class="font-semibold text-foreground">Ofertas</dt>
+                        <dd>
+                            <a
+                                href="/precios"
+                                class="text-brand underline underline-offset-4"
+                            >
+                                Precios y capacidades
+                            </a>
+                        </dd>
+                    </div>
+                    <div class="flex flex-wrap justify-between gap-2 py-3">
+                        <dt class="font-semibold text-foreground">
+                            Privacidad
+                        </dt>
+                        <dd>
+                            <a
+                                href="/privacidad"
+                                class="text-brand underline underline-offset-4"
+                            >
+                                Cómo tratamos tus datos
+                            </a>
+                        </dd>
+                    </div>
+                </dl>
+                <p class="mt-6 text-xs leading-relaxed text-muted-foreground">
+                    País de desarrollo y jurisdicción: Nicaragua. Atención por
+                    correo en horario laboral (UTC−6). Los datos fiscales se
+                    entregan en la cotización. Moneda de cotización: USD.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const contenedor =
+            document.querySelector<HTMLElement>("[data-contacto]");
+        const boton = document.getElementById(
+            "copiar-correo",
+        ) as HTMLButtonElement | null;
+        const estado = document.getElementById("copiar-estado");
+        const enlace = document.getElementById(
+            "mailto-contacto",
+        ) as HTMLAnchorElement | null;
+        const contexto = document.getElementById("plan-contexto");
+
+        const planSolicitado =
+            new URLSearchParams(location.search).get("plan") ?? "";
+        const planes: string[] = JSON.parse(contenedor?.dataset.planes ?? "[]");
+        if (planSolicitado && planes.includes(planSolicitado) && enlace) {
+            const correo = boton?.dataset.correo ?? "equiptracker@rk8.dev";
+            const asunto = `Cotización EquipTracker — ${planSolicitado}`;
+            const cuerpo = `Hola, me interesa la oferta ${planSolicitado}. Quisiera recibir una cotización con alcance, capacidades y condiciones.\n\nEquipos aproximados:\nUsuarios aproximados:\nOrganización:\n`;
+            enlace.href = `mailto:${correo}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+            if (contexto) {
+                contexto.textContent = `Has llegado desde la oferta ${planSolicitado}. El correo ya incluye ese asunto.`;
+                contexto.hidden = false;
+            }
+        }
+
+        boton?.addEventListener("click", async () => {
+            const correo = boton.dataset.correo ?? "";
+            try {
+                await navigator.clipboard.writeText(correo);
+                if (estado)
+                    estado.textContent = `Dirección copiada: ${correo}.`;
+            } catch (error) {
+                window.prompt("Copia esta dirección:", correo);
+            }
+        });
+    </script>
+</BaseLayout>

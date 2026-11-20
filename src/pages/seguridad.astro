@@ -1,0 +1,103 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const temas = [
+    [
+        "Dónde se alojan los datos",
+        "En la modalidad Nube, la API y PostgreSQL son gestionadas por RK8. El proveedor y la región concretos están pendientes de completar. En instalación local, los datos permanecen en la infraestructura del cliente.",
+    ],
+    [
+        "Acceso a la API y a PostgreSQL",
+        "En Nube, las aplicaciones se conectan a través del cliente y la base de datos queda bajo nuestra gestión; solo el plan Integral ofrece una API para integraciones, con llaves de criptografía asimétrica y JWT. En instalación local, la API y PostgreSQL residen en tu infraestructura desde la primera oferta: la API no tiene límite de llamadas, pero sí requiere autenticación, que gestiona el comprador salvo en Local Integral, donde RK8 puede proporcionarla.",
+    ],
+    [
+        "Copias de seguridad",
+        "Las ofertas Nube Inicial incluyen respaldo quincenal; Nube Equipos, respaldo semanal; y Nube Integral, respaldo diario. Se conservan 2 copias: la más reciente y la anterior. La retención adicional y las pruebas de restauración están pendientes de documentar. En instalación local, las copias son responsabilidad del cliente, salvo en Local Integral, donde RK8 puede gestionarlas con su infraestructura.",
+    ],
+    [
+        "Cifrado",
+        "El producto utiliza autenticación JWT y, en Nube Integral, llaves de criptografía asimétrica. En la modalidad Nube, la comunicación con el servidor de RK8 usa TLS. El cifrado en reposo y los detalles de los certificados en instalación local están pendientes de documentar.",
+    ],
+    [
+        "Propiedad y exportación",
+        "Los datos que registres son tuyos. Puedes exportarlos a CSV desde el tablero en Nube Equipos, Nube Integral y los tres planes locales; Nube Inicial no incluye esta función. Si necesitas un traspaso o una exportación asistida, solicítalo por correo: es un servicio con coste separado que debe completarse mientras el servicio esté activo.",
+    ],
+    [
+        "Acceso y roles",
+        "Hay dos roles: administrador y staff. Los permisos disponibles dependen del plan y se aplican en el servidor. El alta de usuarios se controla desde la propia aplicación.",
+    ],
+    [
+        "Historial de asignaciones e incidencias",
+        "Mientras una fila está activa se puede modificar; al cerrarse se elimina de su tabla y se guarda como instantánea inmutable en el historial. En Nube, el cupo se reparte a mitad: 500 asignaciones + 500 incidencias en Inicial, 1.500 + 1.500 en Equipos y 3.000 + 3.000 en Integral. Al llenarse se descarta la fila más antigua, así que la trazabilidad depende del plan. En local no hay límite.",
+    ],
+    [
+        "Eliminación",
+        "Puedes pedir la eliminación de tus datos por correo a equiptracker@rk8.dev sin necesidad de tener una suscripción activa. RK8 elimina los datos que gestiona, salvo obligación legal de conservarlos. La migración o exportación asistida es un trámite distinto, con coste separado, y debe pedirse durante el servicio activo.",
+    ],
+    [
+        "Marco legal",
+        "EquipTracker se desarrolla en Nicaragua, país de referencia legal y jurisdicción de RK8. El tratamiento de los datos se rige por la ley nicaragüense, sin perjuicio de las normas imperativas que correspondan según el país del titular, y se detalla en la política de privacidad y en los términos y condiciones.",
+    ],
+];
+---
+
+<BaseLayout
+    title="Seguridad y datos — EquipTracker"
+    description="Qué se sabe hoy sobre el alojamiento, las copias, el acceso y la exportación de datos en EquipTracker."
+>
+    <section class="page-header">
+        <div class="wrap">
+            <p class="eyebrow">Seguridad y datos</p>
+            <h1 class="mt-3 max-w-3xl text-[clamp(2rem,3.6vw,3rem)] leading-tight tracking-[-0.02em]">
+                Lo que puedes esperar y lo que aún debemos documentar.
+            </h1>
+            <p class="lede mt-4 max-w-2xl">
+                Preferimos ser explícitos: aquí separamos lo que ya forma parte
+                del producto de los datos que todavía no podemos confirmar.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="eyebrow">Estado actual</p>
+                <h2 class="mt-2">Prácticas y documentación.</h2>
+            </div>
+            <dl class="mt-6 grid gap-4 md:grid-cols-2">
+                {temas.map(([titulo, texto]) => (
+                    <div class="rounded-lg border border-border bg-card p-5">
+                        <dt class="font-semibold text-foreground">{titulo}</dt>
+                        <dd class="mt-2 text-sm leading-relaxed text-muted-foreground">
+                            {texto}
+                        </dd>
+                    </div>
+                ))}
+            </dl>
+            <p class="mt-8 text-sm leading-relaxed text-muted-foreground">
+                ¿Necesitas un documento técnico para tu proceso de evaluación?{" "}
+                <a
+                    href="/contacto"
+                    class="font-medium text-brand underline underline-offset-4"
+                >
+                    Solicítalo por correo
+                </a>
+                . El marco legal está en la{" "}
+                <a
+                    href="/privacidad"
+                    class="font-medium text-brand underline underline-offset-4"
+                >
+                    política de privacidad
+                </a>{" "}
+                y en los{" "}
+                <a
+                    href="/terminos"
+                    class="font-medium text-brand underline underline-offset-4"
+                >
+                    términos y condiciones
+                </a>
+                .
+            </p>
+        </div>
+    </section>
+</BaseLayout>

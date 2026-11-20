@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    title="Página no encontrada — EquipTracker"
+    description="La página que buscas no existe o ha cambiado de ubicación."
+    noIndex
+>
+    <section class="page-header">
+        <div class="wrap">
+            <p class="eyebrow">Error 404</p>
+            <h1 class="mt-3 max-w-3xl text-[clamp(2rem,3.6vw,3rem)] leading-tight tracking-[-0.02em]">
+                Esta página no existe.
+            </h1>
+            <p class="lede mt-4 max-w-2xl">
+                Puede que el enlace esté desactualizado. Vuelve al inicio o
+                revisa las secciones disponibles.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+                <a href="/" class="btn-primary">
+                    Ir al inicio
+                </a>
+                <a href="/producto" class="btn-secondary">
+                    Ver el producto
+                </a>
+            </div>
+        </div>
+    </section>
+</BaseLayout>

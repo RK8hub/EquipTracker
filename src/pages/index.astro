@@ -1,0 +1,202 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const pasos = [
+  {
+    numero: '1',
+    titulo: 'Registra el equipo',
+    texto: 'Serie, marca, modelo y especificaciones en una ficha que cualquiera puede consultar.',
+    imagen: '/placeholder-captura-ficha-equipo.svg',
+    alt: 'Placeholder: captura real pendiente de la ficha de un equipo',
+  },
+  {
+    numero: '2',
+    titulo: 'Asigna un operador',
+    texto: 'Unes el equipo a quien lo recibe y conservas la fecha de entrega. Un operador puede tener varios equipos; un equipo, una sola asignación activa.',
+    imagen: '/placeholder-captura-asignaciones.svg',
+    alt: 'Placeholder: captura real pendiente de la lista de asignaciones',
+  },
+  {
+    numero: '3',
+    titulo: 'Registra la incidencia',
+    texto: 'El problema queda ligado al equipo; al cerrarse pasa al historial como instantánea inmutable.',
+    imagen: '/placeholder-captura-incidencias.svg',
+    alt: 'Placeholder: captura real pendiente del historial de incidencias',
+  },
+];
+
+const faqs = [
+  {
+    pregunta: '¿Qué registra EquipTracker?',
+    respuesta: 'Equipos con sus especificaciones, operadores, asignaciones e incidencias. También usuarios con roles de administrador o staff y un tablero con el estado general.',
+  },
+  {
+    pregunta: '¿Qué es un operador?',
+    respuesta: 'Es la persona de tu organización que recibe o usa un equipo. Es distinto de un usuario con acceso: este último entra a la aplicación para registrar y consultar datos.',
+  },
+  {
+    pregunta: '¿Puedo instalarlo en mis servidores?',
+    respuesta: 'Sí. En la modalidad local, el sistema se instala en tus servidores con Docker y no hay topes de equipos, operadores ni incidencias; la licencia se paga aparte, de forma recurrente o perpetua en Integral. En Nube, el acceso se hace desde el cliente de escritorio y solo el plan Integral añade API para integraciones con llaves y JWT.',
+  },
+  {
+    pregunta: '¿Puedo partir de una hoja de cálculo?',
+    respuesta: 'Las ofertas Equipos e Integral incluyen importación CSV asistida. Exportas tus datos desde Excel a CSV y RK8 te acompaña en la carga inicial.',
+  },
+  {
+    pregunta: '¿Cómo se contrata?',
+    respuesta: 'Hay tres tamaños en la nube y tres en instalación local, con precios publicados. La cotización confirma alcance, capacidades y condiciones. Escríbenos desde la página de contacto.',
+  },
+];
+---
+
+<BaseLayout title="EquipTracker — Control de inventario de TI" description="EquipTracker registra equipos, operadores, asignaciones e incidencias de TI. Conoce los precios, prueba la demo y elige entre nube o instalación local.">
+  <section class="relative overflow-hidden bg-card-inverse py-16 text-card-inverse-foreground lg:py-20" data-hero>
+    <div class="hero-glow pointer-events-none" aria-hidden="true"></div>
+    <div class="hero-grid pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="wrap relative z-10 grid items-center gap-10 lg:grid-cols-[1.05fr_1fr]" data-enter>
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-accent">Inventario de TI</p>
+        <h1 class="mt-3 max-w-3xl text-[clamp(2.25rem,4.2vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-card-inverse-foreground">¿Sabes qué equipos de TI tiene cada colaborador y en qué estado se encuentran?</h1>
+        <p class="mt-5 max-w-xl text-base leading-relaxed text-card-inverse-foreground/75">EquipTracker centraliza el inventario, las asignaciones y las incidencias de TI en una sola aplicación, adaptándose a las necesidades de tu empresa.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/demo" class="btn-primary">Probar la demo</a>
+          <a href="/contacto" class="btn-secondary border-card-inverse-foreground/30 bg-transparent text-card-inverse-foreground hover:border-accent hover:text-accent">Solicitar cotización</a>
+        </div>
+        <p class="mt-5 text-sm text-card-inverse-foreground/75"><a href="/precios" class="underline underline-offset-4 hover:text-accent">Ver los precios y las tres ofertas</a></p>
+      </div>
+      <div class="overflow-hidden rounded-xl border border-card-inverse-foreground/15 bg-card p-2 shadow-lg">
+        <img src="/placeholder-captura-inventario.svg" alt="Placeholder: captura real pendiente del listado de inventario de equipos" width="1200" height="750" class="capture border-0 bg-card" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="section scroll-mt-20">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Cómo funciona</p>
+        <h2 class="mt-2">Un equipo, su operador y el registro de lo que le pasa.</h2>
+        <p>El modelo es sencillo: un operador recibe uno o varios equipos; si un equipo falla, la incidencia se registra sobre ese mismo equipo.</p>
+      </div>
+
+      <div class="mt-8 rounded-xl border border-border bg-card p-5" aria-label="Modelo: equipos, asignaciones e incidencias">
+        <div class="flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-center sm:gap-6 sm:text-left">
+          <div class="rounded-lg bg-page px-4 py-3"><p class="text-xs font-semibold uppercase tracking-widest text-brand">Registro</p><p class="mt-1 font-semibold text-foreground">Equipos</p></div>
+          <span aria-hidden="true" class="text-brand rotate-90 sm:rotate-0">→</span>
+          <div class="rounded-lg bg-page px-4 py-3"><p class="text-xs font-semibold uppercase tracking-widest text-brand">Registro</p><p class="mt-1 font-semibold text-foreground">Asignaciones</p></div>
+          <span aria-hidden="true" class="text-brand rotate-90 sm:rotate-0">→</span>
+          <div class="rounded-lg bg-page px-4 py-3"><p class="text-xs font-semibold uppercase tracking-widest text-brand">Historial</p><p class="mt-1 font-semibold text-foreground">Incidencias</p></div>
+        </div>
+        <p class="mt-4 text-center text-xs leading-relaxed text-muted-foreground">Al cerrarse, la fila sale de su tabla y se guarda como instantánea inmutable en el historial.</p>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        {pasos.map((paso) => (
+          <article class="card flex flex-col p-5">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/10 text-sm font-semibold text-brand">{paso.numero}</span>
+            <h3 class="mt-4 text-lg font-semibold">{paso.titulo}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{paso.texto}</p>
+            <img src={paso.imagen} alt={paso.alt} width="1200" height="750" loading="lazy" class="capture mt-5" />
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-compact border-y border-border bg-page">
+    <div class="wrap grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div class="section-head">
+        <p class="eyebrow">Funciones</p>
+        <h2 class="mt-2">Lo que puedes controlar.</h2>
+        <p>Fichas de equipo, operadores, problemas y datos exportables. Sin módulos que no vas a usar.</p>
+        <a href="/producto" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline hover:underline-offset-4">Ver todas las funciones <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {[
+          ['Inventario', 'Serie, marca, modelo y especificaciones'],
+          ['Asignaciones', 'Operador, equipo y fecha de entrega'],
+          ['Incidencias', 'Estado e historial desde la ficha'],
+          ['Usuarios', 'Roles y permisos según el plan'],
+          ['Datos', 'Exportación a CSV según el plan'],
+          ['Acceso', 'Cliente de escritorio; API con token solo en Integral y en local'],
+        ].map(([nombre, detalle]) => (
+          <li class="rounded-lg border border-border bg-card p-4">
+            <p class="font-semibold text-foreground">{nombre}</p>
+            <p class="mt-1 text-sm leading-relaxed text-muted-foreground">{detalle}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="modalidades" class="section scroll-mt-20">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Modalidades</p>
+        <h2 class="mt-2">Elige dónde se ejecuta.</h2>
+        <p>La nube la gestiona RK8 y el acceso es mediante el cliente; la instalación local se despliega en tu infraestructura con API expuesta. Mismo producto en las dos.</p>
+      </div>
+      <div class="mt-8 grid gap-6 lg:grid-cols-2">
+        <article class="card flex flex-col p-6">
+          <h3 class="text-xl font-semibold">Nube</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Trabajas desde el cliente de escritorio, sin administrar la base de datos. Si necesitas integraciones, el plan Integral incorpora una API con llaves asimétricas y JWT.</p>
+          <p class="mt-5 text-sm"><a href="/precios#nube" class="font-semibold text-brand hover:underline">Desde US$29/mes · 3 ofertas</a></p>
+          <ul class="mt-4 space-y-1 text-sm text-muted-foreground">
+            <li>Inicial · 500 asignaciones + 500 incidencias en historial</li>
+            <li>Equipos · 1.500 + 1.500 filas de historial</li>
+            <li>Integral · 3.000 + 3.000 filas de historial y API</li>
+          </ul>
+        </article>
+        <article class="card flex flex-col p-6">
+          <h3 class="text-xl font-semibold">Instalación local</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted-foreground">El backend se instala en tus servidores con Docker. Sin límites de capacidad; la licencia se paga aparte: mensual o anual, o perpetua en Integral. Tú controlas la infraestructura y los datos.</p>
+          <p class="mt-5 text-sm"><a href="/precios#local" class="font-semibold text-brand hover:underline">Desde US$199 · 3 ofertas</a></p>
+          <ul class="mt-4 space-y-1 text-sm text-muted-foreground">
+            <li>Inicial · US$199 + licencia US$12/mes</li>
+            <li>Equipos · US$349 + licencia US$20/mes</li>
+            <li>Integral · US$599 + licencia perpetua US$999</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="preguntas" class="section-compact scroll-mt-20 border-t border-border bg-page">
+    <div class="wrap grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+      <div class="section-head">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2 class="mt-2">Antes de decidir.</h2>
+        <p>Si te queda alguna duda, <a href="/contacto" class="font-medium text-brand underline underline-offset-4">escríbenos</a>.</p>
+      </div>
+      <div class="divide-y divide-border border-y border-border">
+        {faqs.map((faq) => (
+          <details class="group py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 font-semibold text-foreground marker:content-none">
+              {faq.pregunta}
+              <span aria-hidden="true" class="text-xl font-normal text-brand transition-transform group-open:rotate-45">+</span>
+            </summary>
+            <p class="mt-4 max-w-2xl leading-relaxed text-muted-foreground">{faq.respuesta}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand titulo="Mira el producto antes de cotizar." texto="Abre la demo y recorre inventario, asignaciones e incidencias." href="/demo" label="Probar la demo" secundario={{ href: '/contacto', label: 'Solicitar cotización' }} />
+
+  <script>
+    const hero = document.querySelector<HTMLElement>('[data-hero]');
+    const glow = hero?.querySelector<HTMLElement>('.hero-glow');
+    if (hero && glow && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      hero.addEventListener('pointermove', (event) => {
+        const rect = hero.getBoundingClientRect();
+        const x = event.clientX - rect.left - rect.width * 0.75;
+        const y = event.clientY - rect.top - rect.height * 0.15;
+        glow.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
+      hero.addEventListener('pointerleave', () => {
+        glow.style.transform = '';
+      });
+    }
+  </script>
+</BaseLayout>
