@@ -1,6 +1,10 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaBand from "../components/CtaBand.astro";
+import fichaEquipo from "../assets/captura-ficha-equipo.png";
+import asignaciones from "../assets/captura-asignaciones.png";
+import incidencias from "../assets/captura-incidencias.png";
 
 const glosario = [
     [
@@ -67,11 +71,12 @@ const glosario = [
                     </li>
                 </ul>
             </div>
-            <img
-                src="/placeholder-captura-ficha-equipo.svg"
-                alt="Placeholder: captura real pendiente de la ficha detallada de un equipo"
-                width="1200"
-                height="750"
+            <Image
+                src={fichaEquipo}
+                alt="Ficha detallada de un equipo con sus especificaciones"
+                width={1440}
+                height={900}
+                format="webp"
                 loading="lazy"
                 class="capture"
             />
@@ -83,11 +88,12 @@ const glosario = [
         class="section scroll-mt-20 border-y border-border bg-page"
     >
         <div class="wrap grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-            <img
-                src="/placeholder-captura-asignaciones.svg"
-                alt="Placeholder: captura real pendiente de la asignación activa de un equipo a un operador"
-                width="1200"
-                height="750"
+            <Image
+                src={asignaciones}
+                alt="Listado de asignaciones de equipos a operadores"
+                width={1440}
+                height={900}
+                format="webp"
                 loading="lazy"
                 class="capture lg:order-1"
             />
@@ -153,11 +159,12 @@ const glosario = [
                     </li>
                 </ul>
             </div>
-            <img
-                src="/placeholder-captura-incidencias.svg"
-                alt="Placeholder: captura real pendiente del historial de incidencias de un equipo"
-                width="1200"
-                height="750"
+            <Image
+                src={incidencias}
+                alt="Listado de incidencias registradas en EquipTracker"
+                width={1440}
+                height={900}
+                format="webp"
                 loading="lazy"
                 class="capture"
             />

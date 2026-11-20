@@ -1,28 +1,33 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
+import inventario from '../assets/captura-inventario.png';
+import fichaEquipo from '../assets/captura-ficha-equipo.png';
+import asignaciones from '../assets/captura-asignaciones.png';
+import incidencias from '../assets/captura-incidencias.png';
 
 const pasos = [
   {
     numero: '1',
     titulo: 'Registra el equipo',
     texto: 'Serie, marca, modelo y especificaciones en una ficha que cualquiera puede consultar.',
-    imagen: '/placeholder-captura-ficha-equipo.svg',
-    alt: 'Placeholder: captura real pendiente de la ficha de un equipo',
+    imagen: fichaEquipo,
+    alt: 'Ficha de un equipo con serie, marca, modelo y especificaciones',
   },
   {
     numero: '2',
     titulo: 'Asigna un operador',
     texto: 'Unes el equipo a quien lo recibe y conservas la fecha de entrega. Un operador puede tener varios equipos; un equipo, una sola asignación activa.',
-    imagen: '/placeholder-captura-asignaciones.svg',
-    alt: 'Placeholder: captura real pendiente de la lista de asignaciones',
+    imagen: asignaciones,
+    alt: 'Listado de asignaciones de equipos a operadores',
   },
   {
     numero: '3',
     titulo: 'Registra la incidencia',
     texto: 'El problema queda ligado al equipo; al cerrarse pasa al historial como instantánea inmutable.',
-    imagen: '/placeholder-captura-incidencias.svg',
-    alt: 'Placeholder: captura real pendiente del historial de incidencias',
+    imagen: incidencias,
+    alt: 'Listado de incidencias registradas en EquipTracker',
   },
 ];
 
@@ -66,7 +71,7 @@ const faqs = [
         <p class="mt-5 text-sm text-card-inverse-foreground/75"><a href="/precios" class="underline underline-offset-4 hover:text-accent">Ver los precios y las tres ofertas</a></p>
       </div>
       <div class="overflow-hidden rounded-xl border border-card-inverse-foreground/15 bg-card p-2 shadow-lg">
-        <img src="/placeholder-captura-inventario.svg" alt="Placeholder: captura real pendiente del listado de inventario de equipos" width="1200" height="750" class="capture border-0 bg-card" fetchpriority="high" />
+        <Image src={inventario} alt="Listado de inventario de equipos en EquipTracker" width={1440} height={900} format="webp" class="capture border-0 bg-card" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -96,7 +101,7 @@ const faqs = [
             <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/10 text-sm font-semibold text-brand">{paso.numero}</span>
             <h3 class="mt-4 text-lg font-semibold">{paso.titulo}</h3>
             <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{paso.texto}</p>
-            <img src={paso.imagen} alt={paso.alt} width="1200" height="750" loading="lazy" class="capture mt-5" />
+            <Image src={paso.imagen} alt={paso.alt} width={1200} height={750} format="webp" loading="lazy" class="capture mt-5" />
           </article>
         ))}
       </div>

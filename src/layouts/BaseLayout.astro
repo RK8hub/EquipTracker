@@ -112,6 +112,18 @@ const jsonLd = {
             <slot />
         </main>
         <SiteFooter />
+        <dialog
+            id="image-preview"
+            class="image-preview"
+            aria-label="Vista previa de la captura"
+        >
+            <button
+                type="button"
+                class="image-preview__close btn-secondary"
+                aria-label="Cerrar vista previa">Cerrar</button
+            >
+            <img id="image-preview-img" alt="" />
+        </dialog>
         <script>
             const root = document.documentElement;
             const themeToggle = document.getElementById("theme-toggle");
@@ -150,6 +162,39 @@ const jsonLd = {
                     stored = localStorage.getItem("eq-theme");
                 } catch (error) {}
                 if (!stored) applyTheme(event.matches);
+            });
+
+            const preview = document.getElementById(
+                "image-preview",
+            ) as HTMLDialogElement | null;
+            const previewImg = document.getElementById(
+                "image-preview-img",
+            ) as HTMLImageElement | null;
+
+            document.querySelectorAll<HTMLImageElement>("img.capture").forEach((img) => {
+                img.tabIndex = 0;
+                img.setAttribute("role", "button");
+                img.setAttribute("aria-label", `Ampliar: ${img.alt}`);
+                const open = () => {
+                    if (!preview || !previewImg) return;
+                    previewImg.src = img.currentSrc || img.src;
+                    previewImg.alt = img.alt;
+                    preview.showModal();
+                };
+                img.addEventListener("click", open);
+                img.addEventListener("keydown", (event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        open();
+                    }
+                });
+            });
+
+            preview?.addEventListener("click", (event) => {
+                const target = event.target as Element;
+                if (target === preview || target.closest(".image-preview__close")) {
+                    preview.close();
+                }
             });
         </script>
     </body>
