@@ -3,31 +3,31 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import inventario from '../assets/captura-inventario.png';
-import fichaEquipo from '../assets/captura-ficha-equipo.png';
-import asignaciones from '../assets/captura-asignaciones.png';
-import incidencias from '../assets/captura-incidencias.png';
+import altaEquipo from '../assets/captura-alta-equipo.png';
+import asignarOperador from '../assets/captura-asignar-operador.png';
+import registroIncidencia from '../assets/captura-registro-incidencia.png';
 
 const pasos = [
   {
     numero: '1',
     titulo: 'Registra el equipo',
     texto: 'Serie, marca, modelo y especificaciones en una ficha que cualquiera puede consultar.',
-    imagen: fichaEquipo,
-    alt: 'Ficha de un equipo con serie, marca, modelo y especificaciones',
+    imagen: altaEquipo,
+    alt: 'Pantalla de Equipos con el formulario de alta de equipo abierto',
   },
   {
     numero: '2',
     titulo: 'Asigna un operador',
     texto: 'Unes el equipo a quien lo recibe y conservas la fecha de entrega. Un operador puede tener varios equipos; un equipo, una sola asignación activa.',
-    imagen: asignaciones,
-    alt: 'Listado de asignaciones de equipos a operadores',
+    imagen: asignarOperador,
+    alt: 'Pantalla de Asignaciones con el formulario para asignar un operador abierto',
   },
   {
     numero: '3',
     titulo: 'Registra la incidencia',
     texto: 'El problema queda ligado al equipo; al cerrarse pasa al historial como instantánea inmutable.',
-    imagen: incidencias,
-    alt: 'Listado de incidencias registradas en EquipTracker',
+    imagen: registroIncidencia,
+    alt: 'Pantalla de Incidencias con el formulario de registro de incidencia abierto',
   },
 ];
 
@@ -95,13 +95,13 @@ const faqs = [
         <p class="mt-4 text-center text-xs leading-relaxed text-muted-foreground">Al cerrarse, la fila sale de su tabla y se guarda como instantánea inmutable en el historial.</p>
       </div>
 
-      <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {pasos.map((paso) => (
           <article class="card flex flex-col p-5">
             <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/10 text-sm font-semibold text-brand">{paso.numero}</span>
             <h3 class="mt-4 text-lg font-semibold">{paso.titulo}</h3>
             <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{paso.texto}</p>
-            <Image src={paso.imagen} alt={paso.alt} width={1200} height={750} format="webp" loading="lazy" class="capture mt-5" />
+            <Image src={paso.imagen} alt={paso.alt} format="webp" loading="lazy" class="capture mt-5" />
           </article>
         ))}
       </div>
