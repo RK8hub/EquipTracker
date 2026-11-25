@@ -11,20 +11,26 @@ const filasNube: Fila[] = [
         valores: ["✗", "✗", "✓"],
     },
     {
-        etiqueta: "Llamadas a la API por minuto",
-        valores: ["✗", "✗", "Sin límite"],
+        etiqueta: "Mutaciones de la app por minuto",
+        valores: ["70", "120", "Sin límite"],
     },
     { etiqueta: "Certificado TLS/SSL", valores: ["✓", "✓", "✓"] },
     { etiqueta: "Inventario y fichas de equipos", valores: ["✓", "✓", "✓"] },
     { etiqueta: "Incidencias e historial", valores: ["✓", "✓", "✓"] },
     {
-        etiqueta: "Accesos simultáneos",
+        etiqueta: "Usuarios con acceso (según contrato)",
         valores: ["1 usuario", "5 usuarios", "15 usuarios"],
     },
-    { etiqueta: "Roles administrador y staff", valores: ["✗", "✓", "✓"] },
+    {
+        etiqueta: "Roles administrador y staff",
+        valores: ["Admin único", "Admin y staff", "Admin y staff"],
+    },
     { etiqueta: "Exportación a CSV", valores: ["✗", "✓", "✓"] },
-    { etiqueta: "Importación CSV asistida", valores: ["✗", "✓", "✓"] },
-    { etiqueta: "Respaldo", valores: ["Quincenal", "Semanal", "Diario"] },
+    { etiqueta: "Carga CSV asistida por RK8", valores: ["✗", "✓", "✓"] },
+    {
+        etiqueta: "Respaldo automático",
+        valores: ["Quincenal", "Semanal", "Diario"],
+    },
     { etiqueta: "Soporte", valores: ["Básico", "Estándar", "Prioritario"] },
     { etiqueta: "Acompañamiento de RK8", valores: ["✗", "✗", "✓"] },
 ];
@@ -36,7 +42,7 @@ const filasLocal: Fila[] = [
     },
     { etiqueta: "Acceso a PostgreSQL local", valores: ["✓", "✓", "✓"] },
     {
-        etiqueta: "Llamadas a la API por minuto",
+        etiqueta: "Mutaciones de la app por minuto",
         valores: ["Sin límite", "Sin límite", "Sin límite"],
     },
     {
@@ -45,11 +51,11 @@ const filasLocal: Fila[] = [
     },
     { etiqueta: "Cliente de escritorio", valores: ["✓", "✓", "✓"] },
     {
-        etiqueta: "Equipos, operadores y staff",
+        etiqueta: "Equipos, operadores, usuarios y staff",
         valores: ["Sin límite", "Sin límite", "Sin límite"],
     },
     { etiqueta: "Exportación a CSV", valores: ["✓", "✓", "✓"] },
-    { etiqueta: "Importación CSV asistida", valores: ["✗", "✓", "✓"] },
+    { etiqueta: "Carga CSV asistida por RK8", valores: ["✗", "✓", "✓"] },
     {
         etiqueta: "Licencia de uso",
         valores: ["Mensual o anual", "Mensual o anual", "Perpetua (US$999)"],
@@ -182,13 +188,13 @@ const faqs = [
     {
         pregunta: "¿Hay límite de equipos u operadores?",
         respuesta:
-            "No. Equipos y operadores no tienen límite; los accesos simultáneos dependen del plan. Detalles en",
+            "No. Equipos y operadores no tienen límite; los usuarios con acceso se otorgan según el plan contratado. Detalles en",
         enlace: { href: "/terminos#cuenta", texto: "cuentas y accesos." },
     },
     {
         pregunta: "¿Cuántas filas de historial se conservan?",
         respuesta:
-            "En Nube hay un cupo por plan; en local no hay límite. Al cerrarse, cada fila queda como instantánea inmutable. Detalles en",
+            "En Nube hay un límite por plan; en local no hay límite. Al cerrarse, cada fila queda como instantánea inmutable. Detalles en",
         enlace: { href: "/seguridad", texto: "seguridad y datos." },
     },
     {
@@ -200,7 +206,7 @@ const faqs = [
     {
         pregunta: "¿Los planes locales tienen límites?",
         respuesta:
-            "No. Sin límite de equipos, operadores ni filas; la licencia se factura aparte. Condiciones en",
+            "No. Sin límite de equipos, operadores, usuarios ni filas de historial; la licencia se factura aparte. Condiciones en",
         enlace: { href: "/terminos#licencia", texto: "modalidades y licencia." },
     },
     {
@@ -525,7 +531,7 @@ const faqs = [
                     href="/terminos#api"
                     class="font-medium text-brand underline underline-offset-4"
                 >
-                    límites de API y el TLS
+                    límites de mutaciones y el TLS
                 </a>{" "}
                 en los términos y condiciones.{" "}
                 <a

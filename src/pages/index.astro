@@ -42,11 +42,11 @@ const faqs = [
   },
   {
     pregunta: '¿Puedo instalarlo en mis servidores?',
-    respuesta: 'Sí. En la modalidad local, el sistema se instala en tus servidores con Docker y no hay topes de equipos, operadores ni incidencias; la licencia se paga aparte, de forma recurrente o perpetua en Integral. En Nube, el acceso se hace desde el cliente de escritorio y solo el plan Integral añade API para integraciones con llaves y JWT.',
+    respuesta: 'Sí. En la modalidad local, el sistema se instala en tus servidores con Docker y no hay topes de equipos, operadores, usuarios ni filas de historial; la licencia se paga aparte, de forma recurrente o perpetua en Integral. En Nube, el acceso se hace desde el cliente de escritorio y solo el plan Integral añade API para integraciones con JWT sobre TLS.',
   },
   {
     pregunta: '¿Puedo partir de una hoja de cálculo?',
-    respuesta: 'Las ofertas Equipos e Integral incluyen importación CSV asistida. Exportas tus datos desde Excel a CSV y RK8 te acompaña en la carga inicial.',
+    respuesta: 'Las ofertas Equipos e Integral incluyen la carga CSV como servicio asistido por RK8: exportas tus datos desde Excel a CSV y RK8 realiza la carga inicial. No es una función automática de la aplicación.',
   },
   {
     pregunta: '¿Cómo se contrata?',
@@ -144,7 +144,7 @@ const faqs = [
       <div class="mt-8 grid gap-6 lg:grid-cols-2">
         <article class="card flex flex-col p-6">
           <h3 class="text-xl font-semibold">Nube</h3>
-          <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Trabajas desde el cliente de escritorio, sin administrar la base de datos. Si necesitas integraciones, el plan Integral incorpora una API con llaves asimétricas y JWT.</p>
+          <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Trabajas desde el cliente de escritorio, sin administrar la base de datos. Si necesitas integraciones, el plan Integral incorpora una API con JWT sobre TLS; la activación usa un código y la licencia local se firma con Ed25519.</p>
           <p class="mt-5 text-sm"><a href="/precios#nube" class="font-semibold text-brand hover:underline">Desde US$29/mes · 3 ofertas</a></p>
           <ul class="mt-4 space-y-1 text-sm text-muted-foreground">
             <li>Inicial · 500 asignaciones + 500 incidencias en historial</li>

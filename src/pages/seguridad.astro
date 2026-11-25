@@ -8,15 +8,15 @@ const temas = [
     ],
     [
         "Acceso a la API y a PostgreSQL",
-        "En Nube, las aplicaciones se conectan a través del cliente y la base de datos queda bajo nuestra gestión; solo el plan Integral ofrece una API para integraciones, con llaves de criptografía asimétrica y JWT. En instalación local, la API y PostgreSQL residen en tu infraestructura desde la primera oferta: la API no tiene límite de llamadas, pero sí requiere autenticación, que gestiona el comprador salvo en Local Integral, donde RK8 puede proporcionarla.",
+        "En Nube, las aplicaciones se conectan a través del cliente y la base de datos queda bajo nuestra gestión; solo el plan Integral ofrece una API para integraciones, con activación por código y sesiones JWT sobre TLS. En instalación local, la API y PostgreSQL residen en tu infraestructura desde la primera oferta: la API no tiene límite de llamadas, pero sí requiere autenticación, que gestiona el comprador salvo en Local Integral, donde RK8 puede proporcionarla.",
     ],
     [
         "Copias de seguridad",
-        "Las ofertas Nube Inicial incluyen respaldo quincenal; Nube Equipos, respaldo semanal; y Nube Integral, respaldo diario. Se conservan 2 copias: la más reciente y la anterior. La retención adicional y las pruebas de restauración están pendientes de documentar. En instalación local, las copias son responsabilidad del cliente, salvo en Local Integral, donde RK8 puede gestionarlas con su infraestructura.",
+        "Control programa el respaldo de Nube Inicial cada quince días, el de Nube Equipos cada semana y el de Nube Integral cada día. Se conservan 2 copias: la más reciente y la anterior. La retención adicional y las pruebas de restauración están pendientes de documentar. En instalación local, las copias son responsabilidad del cliente, salvo en Local Integral, donde RK8 puede gestionarlas con su infraestructura.",
     ],
     [
         "Cifrado",
-        "El producto utiliza autenticación JWT y, en Nube Integral, llaves de criptografía asimétrica. En la modalidad Nube, la comunicación con el servidor de RK8 usa TLS. El cifrado en reposo y los detalles de los certificados en instalación local están pendientes de documentar.",
+        "El producto utiliza JWT para la sesión y TLS para el canal. En instalación local, la licencia offline se firma con Ed25519. No hay llaves de API asimétricas ni simétricas gestionadas desde la aplicación. El cifrado en reposo y los detalles de los certificados en instalación local están pendientes de documentar.",
     ],
     [
         "Propiedad y exportación",
@@ -24,7 +24,7 @@ const temas = [
     ],
     [
         "Acceso y roles",
-        "Hay dos roles: administrador y staff. Los permisos disponibles dependen del plan y se aplican en el servidor. El alta de usuarios se controla desde la propia aplicación.",
+        "Hay dos roles: administrador y staff; en Nube Inicial solo existe un administrador. Los permisos disponibles dependen del plan y se aplican en el servidor. El alta de usuarios se controla desde la propia aplicación.",
     ],
     [
         "Historial de asignaciones e incidencias",

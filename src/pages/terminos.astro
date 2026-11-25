@@ -25,7 +25,7 @@ const secciones = [
         titulo: "Cuentas y accesos",
         texto: [
             "Para usar la aplicación necesitas una dirección de correo válida. Eres responsable de mantener tus credenciales en secreto y de toda la actividad que ocurra con tu cuenta, incluida la de otras personas a las que des acceso.",
-            "Según el plan contratado, el Servicio admite 1, 5 o 15 usuarios con acceso. En Nube Inicial existe un único acceso, sin roles de administrador ni staff. Los permisos disponibles dependen del plan y se aplican en el servidor.",
+            "Según el plan contratado, el Servicio admite 1, 5 o 15 usuarios con acceso en Nube; los planes locales no fijan un número. En Nube Inicial existe un único acceso con rol de administrador; en los demás planes hay roles de administrador y staff. El backend limita tanto las cuentas creadas como el total de sesiones simultáneas: al alcanzarse el tope se rechaza un nuevo inicio de sesión. Los permisos disponibles dependen del plan y se aplican en el servidor.",
             "Debes avisarnos por correo si detectas un uso no autorizado de tu cuenta o del Servicio. Los accesos se otorgan a personas; no está permitido compartir una misma credencial entre varias personas.",
         ],
     },
@@ -59,8 +59,8 @@ const secciones = [
         id: "api",
         titulo: "API e integraciones",
         texto: [
-            "En Nube, la API para integraciones está disponible solo en el plan Integral y utiliza llaves de criptografía asimétrica junto con autenticación JWT. En instalación local, la API está disponible en los tres planes, sin límite de llamadas pero con autenticación a cargo del cliente; RK8 puede proporcionarla en Local Integral.",
-            "El límite de llamadas en Nube se aplica por plan: 70 por minuto en Inicial y 120 en Equipos, sin límite en Integral. Cuentan crear, modificar y borrar; las consultas para mostrar datos no cuentan. Al superarse, la API responde 429. El límite se lee de la configuración del contenedor del cliente y no depende de la IP de origen.",
+            "En Nube, la API para integraciones está disponible solo en el plan Integral. La activación usa un código canjeado en el panel de Control y cada petición al backend lo envía como encabezado; la sesión del usuario usa JWT sobre TLS. La licencia local se firma con Ed25519. No hay llaves de API asimétricas ni simétricas gestionadas desde la aplicación. En instalación local, la API está disponible en los tres planes, sin límite de llamadas pero con autenticación a cargo del cliente; RK8 puede proporcionarla en Local Integral.",
+            "Los límites de 70 y 120 por minuto en Nube Inicial y Equipos son de mutaciones de la aplicación, no llamadas de una API de integraciones: cuentan crear, modificar y borrar; las consultas para mostrar datos no cuentan. El contador se comparte por instalación, sin distinguir la IP de origen, y se lee del plan vigente en la base de datos o la licencia del contenedor. Al superarse, el backend responde 429. En Nube Integral y en los tres planes locales no hay límite.",
             "En Nube, las conexiones usan TLS en la infraestructura de RK8. En instalación local, el certificado TLS/SSL lo aporta el cliente.",
         ],
     },

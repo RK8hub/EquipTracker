@@ -196,9 +196,9 @@ const glosario = [
                 <p class="eyebrow">Migración desde Excel</p>
                 <h2 class="mt-2">Trae tus datos sin empezar de cero.</h2>
                 <p>
-                    La importación asistida está incluida en las ofertas Equipos
-                    e Integral: partimos de tu hoja de cálculo y dejamos el
-                    registro listo para usar.
+                    La carga CSV es un servicio asistido por RK8, incluido en
+                    las ofertas Equipos e Integral: partimos de tu hoja de
+                    cálculo y dejamos el registro listo para usar.
                 </p>
                 <p class="mt-3 text-sm">
                     No es una función automática de descubrimiento de red.
@@ -225,8 +225,9 @@ const glosario = [
                 <div class="rounded-lg border border-border bg-card p-5">
                     <h3 class="font-semibold">Usuarios y roles</h3>
                     <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                        Autenticación JWT y dos roles: administrador y staff.
-                        Los permisos disponibles dependen del plan; el alta de
+                        Autenticación JWT y dos roles: administrador y staff;
+                        en Nube Inicial solo existe un administrador. Los
+                        permisos disponibles dependen del plan; el alta de
                         usuarios se controla desde la aplicación.
                     </p>
                 </div>
@@ -242,10 +243,11 @@ const glosario = [
                     <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
                         Servicio FastAPI con las reglas de negocio. En Nube, el
                         acceso para integraciones se reserva al plan Integral y
-                        usa llaves asimétricas y JWT. En instalación local está
-                        disponible en todas las ofertas, sin límite de llamadas
-                        pero con autenticación a cargo del cliente (RK8 puede
-                        proporcionarla en Local Integral).
+                        usa JWT sobre TLS; la activación es por código y la
+                        licencia local se firma con Ed25519. En instalación
+                        local está disponible en todas las ofertas, sin límite
+                        de llamadas pero con autenticación a cargo del cliente
+                        (RK8 puede proporcionarla en Local Integral).
                     </p>
                 </div>
                 <div class="rounded-lg border border-border bg-card p-5">
