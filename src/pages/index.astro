@@ -65,10 +65,10 @@ const faqs = [
         <h1 class="mt-3 max-w-3xl text-[clamp(2.25rem,4.2vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-card-inverse-foreground">¿Sabes qué equipos de TI tiene cada colaborador y en qué estado se encuentran?</h1>
         <p class="mt-5 max-w-xl text-base leading-relaxed text-card-inverse-foreground/75">EquipTracker centraliza el inventario, las asignaciones y las incidencias de TI en una sola aplicación, adaptándose a las necesidades de tu empresa.</p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href="/demo" class="btn-primary">Probar la demo</a>
-          <a href="/contacto" class="btn-secondary border-card-inverse-foreground/30 bg-transparent text-card-inverse-foreground hover:border-accent hover:text-accent">Solicitar cotización</a>
+          <a href="/demo/" class="btn-primary">Probar la demo</a>
+          <a href="/contacto/" class="btn-secondary border-card-inverse-foreground/30 bg-transparent text-card-inverse-foreground hover:border-accent hover:text-accent">Solicitar cotización</a>
         </div>
-        <p class="mt-5 text-sm text-card-inverse-foreground/75"><a href="/precios" class="underline underline-offset-4 hover:text-accent">Ver los precios y las tres ofertas</a></p>
+        <p class="mt-5 text-sm text-card-inverse-foreground/75"><a href="/precios/" class="underline underline-offset-4 hover:text-accent">Ver los precios y las tres ofertas</a></p>
       </div>
       <div class="overflow-hidden rounded-xl border border-card-inverse-foreground/15 bg-card p-2 shadow-lg">
         <Image src={inventario} alt="Listado de inventario de equipos en EquipTracker" width={1440} height={900} format="webp" class="capture border-0 bg-card" fetchpriority="high" />
@@ -114,7 +114,7 @@ const faqs = [
         <p class="eyebrow">Funciones</p>
         <h2 class="mt-2">Lo que puedes controlar.</h2>
         <p>Fichas de equipo, operadores, problemas y datos exportables. Sin módulos que no vas a usar.</p>
-        <a href="/producto" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline hover:underline-offset-4">Ver todas las funciones <span aria-hidden="true">→</span></a>
+        <a href="/producto/" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline hover:underline-offset-4">Ver todas las funciones <span aria-hidden="true">→</span></a>
       </div>
       <ul class="grid gap-3 sm:grid-cols-2">
         {[
@@ -145,7 +145,7 @@ const faqs = [
         <article class="card flex flex-col p-6">
           <h3 class="text-xl font-semibold">Nube</h3>
           <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Trabajas desde el cliente de escritorio, sin administrar la base de datos. Si necesitas integraciones, el plan Integral incorpora una API con JWT sobre TLS; la activación usa un código y la licencia local se firma con Ed25519.</p>
-          <p class="mt-5 text-sm"><a href="/precios#nube" class="font-semibold text-brand hover:underline">Desde US$29/mes · 3 ofertas</a></p>
+          <p class="mt-5 text-sm"><a href="/precios/#nube" class="font-semibold text-brand hover:underline">Desde US$29/mes · 3 ofertas</a></p>
           <ul class="mt-4 space-y-1 text-sm text-muted-foreground">
             <li>Inicial · 500 asignaciones + 500 incidencias en historial</li>
             <li>Equipos · 1.500 + 1.500 filas de historial</li>
@@ -155,7 +155,7 @@ const faqs = [
         <article class="card flex flex-col p-6">
           <h3 class="text-xl font-semibold">Instalación local</h3>
           <p class="mt-2 text-sm leading-relaxed text-muted-foreground">El backend se instala en tus servidores con Docker. Sin límites de capacidad; la licencia se paga aparte: mensual o anual, o perpetua en Integral. Tú controlas la infraestructura y los datos.</p>
-          <p class="mt-5 text-sm"><a href="/precios#local" class="font-semibold text-brand hover:underline">Desde US$199 · 3 ofertas</a></p>
+          <p class="mt-5 text-sm"><a href="/precios/#local" class="font-semibold text-brand hover:underline">Desde US$199 · 3 ofertas</a></p>
           <ul class="mt-4 space-y-1 text-sm text-muted-foreground">
             <li>Inicial · US$199 + licencia US$12/mes</li>
             <li>Equipos · US$349 + licencia US$20/mes</li>
@@ -171,7 +171,7 @@ const faqs = [
       <div class="section-head">
         <p class="eyebrow">Preguntas frecuentes</p>
         <h2 class="mt-2">Antes de decidir.</h2>
-        <p>Si te queda alguna duda, <a href="/contacto" class="font-medium text-brand underline underline-offset-4">escríbenos</a>.</p>
+        <p>Si te queda alguna duda, <a href="/contacto/" class="font-medium text-brand underline underline-offset-4">escríbenos</a>.</p>
       </div>
       <div class="divide-y divide-border border-y border-border">
         {faqs.map((faq) => (
@@ -187,7 +187,7 @@ const faqs = [
     </div>
   </section>
 
-  <CtaBand titulo="Mira el producto antes de cotizar." texto="Abre la demo y recorre inventario, asignaciones e incidencias." href="/demo" label="Probar la demo" secundario={{ href: '/contacto', label: 'Solicitar cotización' }} />
+  <CtaBand titulo="Mira el producto antes de cotizar." texto="Abre la demo y recorre inventario, asignaciones e incidencias." href="/demo/" label="Probar la demo" secundario={{ href: '/contacto/', label: 'Solicitar cotización' }} />
 
   <script>
     const hero = document.querySelector<HTMLElement>('[data-hero]');
